@@ -5,22 +5,40 @@ require 'rxhp/mixin'
 require 'rxhp/composable_element'
 require 'rxhp/html'
 
-class HelloWorld < Rxhp::ComposableElement
+# This actually defines a new kind of element, that is composed of other
+# elements - it has no real rendering itself.
+class HelloWorldBody < Rxhp::ComposableElement
   def compose
-    html do
-      body do
-        p 'Hello,'
-        br
-        p 'world.'
-        p(:class => 'bonus') do
-          "& <some escaping too>"
-        end
+    body do
+      p 'Hello,'
+      br
+      yield # Call the children, and embed them here
+      p(:class => 'bonus') do
+        "& <some escaping too>"
       end
     end
   end
 end
 
-foo = HelloWorld.new
+# Well, you could just create an instance of it (or any other element)
+# directly:
+#  foo = HelloWorldBody.new
+
+# But that would be boring. Let's use a mixin instead (and in the process,
+# show that we really did just create a tag, and make it have the missing
+# html tag
+class Foo
+  include Rxhp::Mixin
+  def wrap_a_body
+    html do
+      hello_world_body do
+        'world.'
+      end
+    end
+  end
+end
+
+foo = Foo.new.wrap_a_body
 puts '===== HTML mode ====='
 puts foo.render
 puts '===== XHTML mode ====='
