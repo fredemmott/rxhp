@@ -12,6 +12,8 @@ elements that boil down to HTML eventually.
 
 For example, see http://codebeforethehorse.tumblr.com/post/11022211307/image-spriting-in-xhp
 
+More importantly, I was bored this evening.
+
 = What stage is this at?
 
 It's at the 'I hacked this together in 4 hours' stage, so no documentation,
