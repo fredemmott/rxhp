@@ -1,0 +1,18 @@
+= What is this?!
+
+XHP in Ruby. Not made/supported/endorsed by Facebook.
+
+See hello.rb for example usage, https://gist.github.com/1629458 for
+example output.
+
+= Why?
+
+XHP is actually rather nice - in particular that you can define custom
+elements that boil down to HTML eventually.
+
+For example, see http://codebeforethehorse.tumblr.com/post/11022211307/image-spriting-in-xhp
+
+= What stage is this at?
+
+It's at the 'I hacked this together in 4 hours' stage, so no documentation,
+tests, or other nice things.
