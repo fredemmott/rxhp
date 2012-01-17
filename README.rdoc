@@ -17,4 +17,4 @@ More importantly, I was bored this evening.
 = What stage is this at?
 
 It's at the 'I hacked this together in 4 hours' stage, so no documentation,
-tests, or other nice things.
+tests, features, or other such nice things.
