@@ -30,12 +30,17 @@ module Rxhp
     #   tag
     #   tag (:attribute => value)
     def self.define_element name, klass
-      Rxhp::Scope.send(:define_method, name) do |children = nil, attributes = {}, &block|
-        # if children is skipped but attributes are provided, they'll end
-        # up in attributes anyway. fix.
-        if children.is_a?(Hash) && attributes.empty?
-          attributes = children
-          children = nil
+      Rxhp::Scope.send(:define_method, name) do |*args, &block|
+        # Yay for faking named parameters as a hash :p
+        children = nil
+        attributes = {}
+        args.each do |arg|
+          if arg.is_a?(Hash)
+            attributes = arg
+          else
+            children ||= []
+            children.push arg
+          end
         end
 
         # Create the actual element

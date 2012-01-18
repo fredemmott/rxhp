@@ -24,7 +24,7 @@ module Rxhp
     # Rxhp::Scope#define_element to register the 'tag' method.
     def self.define_tag tag, parent = HtmlElement
       klass_name = tag.to_s.dup
-      klass_name[0] = klass_name[0].upcase
+      klass_name[0] = klass_name[0,1].upcase
       klass = Class.new(parent)
       klass.send(:define_method, :tag_name) { tag.to_s }
 
