@@ -4,7 +4,24 @@ require 'rxhp/html_singleton_element'
 require 'rxhp/scope'
 
 module Rxhp
+  # Definitions of all standard HTML 4.01 and HTML 5 elements.
+  #
+  # All the classes are created when this file is loaded, regardless
+  # of usage.
+  #
+  # There are three common superclasses:
+  # - HtmlElement - standard elements
+  # - HtmlSelfClosingElement - elements where in HTML, the closing tag is
+  #   optional - for example, <p>, <li>, and <body>
+  # - HtmlSingletonElement - not only is the closing tag optional, but
+  #   child elements are forbidden - for example, <br> and <img>
+  #
+  # 'Special' classes are defined in rxhp/tags/ - for example, the HTML
+  # element in Rxhp is defined to add a doctype, depending on the formatter
+  # settings.
   module Html
+    # Create a 'Tag' class representing the element, and call
+    # Rxhp::Scope#define_element to register the 'tag' method.
     def self.define_tag tag, parent = HtmlElement
       klass_name = tag.to_s.dup
       klass_name[0] = klass_name[0].upcase

@@ -18,3 +18,6 @@ More importantly, I was bored this evening.
 
 It's at the 'I hacked this together in 4 hours' stage, so no documentation,
 tests, features, or other such nice things.
+
+It also does not work on Ruby 1.8. This isn't currently intentional, but
+I only really care about 1.9.

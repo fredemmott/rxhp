@@ -1,6 +1,12 @@
 require 'rxhp/html_element'
 
 module Rxhp
+  # Base class for HTML elements where the closing tag is optional, but
+  # there can still be children.
+  #
+  # For example, </p> is optional in HTML, but required in XHTML.
+  # This will change whether they're included or not based on the selected
+  # render format.
   class HtmlSelfClosingElement < HtmlElement
     protected
     def render_close_tag options

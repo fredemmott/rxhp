@@ -44,13 +44,13 @@ puts foo.render
 puts '===== XHTML mode ====='
 puts foo.render(
   :format => Rxhp::XHTML_FORMAT,
-  :doctype => Rxhp::XHTML_1_0_STRICT,
+  :doctype => Rxhp::XHTML_1_0_STRICT
 )
 puts '===== Tiny HTML mode ====='
 puts foo.render(
   :format => Rxhp::TINY_HTML_FORMAT,
   :pretty => false,
-  :skip_doctype => true,
+  :skip_doctype => true
 )
 
 # Also available as a mixin
