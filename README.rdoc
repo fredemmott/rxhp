@@ -18,3 +18,25 @@ More importantly, I was bored this evening.
 
 It's at the 'I hacked this together in 4 hours' stage, so no documentation,
 tests, features, or other such nice things.
+
+= How do the classes fit together?
+
+docs/base-classes.png
+
+* Rxhp::Element is the root class - everything in an Rxhp tree is either
+  an Element, a String, something implementing to_s, or something that
+  raises an error when you try :p
+* Rxhp::HtmlElement is the direct superclass for most HTML elements - for
+  example, Rxhp::Html::Title inherits from this.
+* Rxhp::HtmlSingletonElement is the superclass for HTML elements that can
+  not have children - for example, Rxhp::Html::Img inherits from this.
+* Rxhp::HtmlSelfClosingElement is the superclass for HTML elements where
+  you can optionally skip the closing tag, even if there are child
+  elements, such as Rxhp::Html::P - this only acts differently to
+  HtmlElement if the 'tiny HTML' renderer is used.
+* Rxhp::ComposableElement is the base class for elements you make yourself,
+  with no 'real' render - just composed of other Rxhp::Element subclasses
+  and strings.
+* Rxhp::Fragment is a bogus element - it just provides a container. It's
+  rather similar to ComposableElement, but with less logic in it. It's used
+  internally to provide a magic root element for trees.
