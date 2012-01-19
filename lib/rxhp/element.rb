@@ -50,14 +50,9 @@ module Rxhp
         when Element
           out += child.render(options)
         when String
-          # render_context.render_string is used instead of
-          # self.render_string as the call depth isn't guaranteed to be the
-          # same as the node nesting depth.
-          #
-          # See Rxhp::Renderer for more infromation.
-          out += render_context.render_string(child, options)
+          out += self.render_string(child, options)
         else
-          out += render_context.render_string(child.to_s, options)
+          out += self.render_string(child.to_s, options)
         end
       end
       out

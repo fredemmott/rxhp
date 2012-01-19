@@ -1,3 +1,4 @@
+require 'continuation' unless RUBY_VERSION =~ /^1\.8\./
 module Rxhp
   # A place for factory methods to be defined.
   #
@@ -14,9 +15,19 @@ module Rxhp
     #     fragment inner
     #   end
     def fragment x
-      self.render_context.children.push x
+      Rxhp::Scope.current.children.push x
     end
     alias :frag :fragment
+
+    def self.current
+      callcc do |cc|
+        begin
+          throw(:rxhp_parent, cc)
+        rescue NameError, ArgumentError
+          Rxhp::Fragment.new
+        end
+      end
+    end
 
     # Define the factory method.
     #
@@ -45,17 +56,7 @@ module Rxhp
 
         # Create the actual element
         element = klass.new(attributes)
-
-        # Append the new element to the real parent - parent isn't defined
-        # by scope, as:
-        # html do
-        #   # I have the same 'self' as...
-        #   body do
-        #     # ... here
-        #   end
-        # end
-        context = self.render_context
-        context.children.push element
+        Rxhp::Scope.current.children.push element
 
         # Append non-block children
         if children
@@ -70,7 +71,7 @@ module Rxhp
 
         if block
           # push element onto the render stack...
-          self.sub_render(element) do
+          cc = catch(:rxhp_parent) do
             # ... and call the block with that new stack
             result = block.call
             if result && result.is_a?(String)
@@ -78,7 +79,9 @@ module Rxhp
               # their creation would run through this method themselves.
               element.children.push result
             end
+            nil
           end
+          cc.call(element) if cc
         end
         element
       end

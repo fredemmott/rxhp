@@ -52,18 +52,6 @@ module Rxhp
       end
     end
 
-    # If we don't already have a render context, use this element as
-    # the root.
-    #
-    # If we don't override this, all children would get assigned to a
-    # throwaway Rxhp::Fragment - the root 'real' element needs to take
-    # them.
-    #
-    # See Rxhp::Renderer for a general explanation of this.
-    def render_context
-      render_stack.last || self
-    end
-
     # Override to increase the depth count for the sake of pretty printing
     def render_children options = {}
       child_options = options.dup
