@@ -1,13 +1,14 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.push './lib'
 
-require 'rxhp/mixin'
+require 'rxhp/constants'
 require 'rxhp/composable_element'
 require 'rxhp/html'
 
 # This actually defines a new kind of element, that is composed of other
 # elements - it has no real rendering itself.
 class HelloWorldBody < Rxhp::ComposableElement
+  include Rxhp::Html # Import methods for every tag
   def compose
     body do
       p 'Hello,'
@@ -28,9 +29,8 @@ end
 # show that we really did just create a tag, and make it have the missing
 # html tag
 class Foo
-  include Rxhp::Mixin
   def wrap_a_body
-    html do
+    Rxhp::Html.html do # Don't import the methods, fully-qualify them
       hello_world_body do
         'world.'
       end
@@ -52,20 +52,3 @@ puts foo.render(
   :pretty => false,
   :skip_doctype => true
 )
-
-# Also available as a mixin
-class MyThing
-  include Rxhp::Mixin
-  def doSomething
-    junk = html do
-      'foo'
-    end
-    html do
-      'bar'
-    end
-  end
-
-  def render
-    doSomething.render
-  end
-end

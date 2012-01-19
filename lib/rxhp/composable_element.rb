@@ -31,9 +31,17 @@ module Rxhp
     # Automatically add a foo_bar method to Rxhp scopes when a FooBar
     # subclass of this is created.
     def self.inherited subclass
+      full_name = subclass.name
+      parts = full_name.split('::')
+      klass_name = parts.pop
+      namespace = Kernel
+      parts.each do |part|
+        namespace = namespace.const_get(part)
+      end
       # UpperCamelCase => under_scored
-      tag_name = subclass.name.gsub(/(.)([A-Z])/, '\1_\2').downcase
-      Rxhp::Scope.define_element tag_name, subclass
+      tag_name = klass_name.gsub(/(.)([A-Z])/, '\1_\2').downcase
+
+      Rxhp::Scope.define_element tag_name, subclass, namespace
     end
   end
 end

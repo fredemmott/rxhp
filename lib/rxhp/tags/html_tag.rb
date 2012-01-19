@@ -18,4 +18,4 @@ module Rxhp
   end
 end
 
-Rxhp::Scope.define_element('html', Rxhp::Html::HtmlTag)
+Rxhp::Scope.define_element('html', Rxhp::Html::HtmlTag, Rxhp::Html)

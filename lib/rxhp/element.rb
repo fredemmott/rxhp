@@ -1,6 +1,4 @@
-require 'rxhp/mixin'
-require 'rxhp/constants'
-
+require 'rxhp/scope'
 
 module Rxhp
   # Base class for all element-like things in RXHP.
@@ -9,7 +7,7 @@ module Rxhp
   # something that responds nicely to to_s, or something that will cause en
   # error at render-time :p
   class Element
-    include ::Rxhp::Mixin
+    include ::Rxhp::Scope
     attr_accessor :attributes, :children
 
     def initialize attributes = {}

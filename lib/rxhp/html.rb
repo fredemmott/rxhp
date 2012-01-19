@@ -30,7 +30,7 @@ module Rxhp
 
       Rxhp::Html.const_set(klass_name, klass)
 
-      Rxhp::Scope.define_element tag, klass
+      Rxhp::Scope.define_element tag, klass, Rxhp::Html
     end
 
     define_tag :abbr

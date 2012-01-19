@@ -40,8 +40,8 @@ module Rxhp
     #   end
     #   tag
     #   tag (:attribute => value)
-    def self.define_element name, klass
-      Rxhp::Scope.send(:define_method, name) do |*args, &block|
+    def self.define_element name, klass, namespace
+      impl = Proc.new do |*args, &block|
         # Yay for faking named parameters as a hash :p
         children = nil
         attributes = {}
@@ -85,6 +85,22 @@ module Rxhp
         end
         element
       end
+
+      # Instance method if mixed in.
+      #
+      # Usage:
+      #  include Rxhp::Html
+      #  html do
+      #    ...
+      #  end
+      namespace.send(:define_method, name, impl)
+      # Class method for fully-qualified.
+      #
+      # Usage:
+      #  Rxhp::Html.html do
+      #    ...
+      #  end
+      (class <<namespace; self; end).send(:define_method, name, impl)
     end
   end
 end
