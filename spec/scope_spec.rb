@@ -27,11 +27,11 @@ describe Rxhp::Scope do
     end
 
     it 'creates NameSpace.foo()' do
-      @ns.public_methods.should include(@name)
+      @ns.public_methods.map(&:to_sym).should include(@name)
     end
 
     it 'creates NameSpace#foo()' do
-      @ns.public_instance_methods.should include(@name)
+      @ns.public_instance_methods.map(&:to_sym).should include(@name)
     end
 
     context 'defines a method, that when called' do
