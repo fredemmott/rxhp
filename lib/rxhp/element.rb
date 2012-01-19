@@ -1,3 +1,4 @@
+require 'rxhp/constants'
 require 'rxhp/scope'
 
 module Rxhp
@@ -28,8 +29,6 @@ module Rxhp
       raise NotImplementedError.new
     end
 
-    protected
-
     # Called when something that isn't an element is found in the tree.
     #
     # Implemented in Rxhp::HtmlElement.
@@ -39,7 +38,7 @@ module Rxhp
 
 
     # Iterate over all the children, calling render.
-    def render_children options
+    def render_children options = {}
       return if children.empty?
 
       out = String.new

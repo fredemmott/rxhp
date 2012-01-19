@@ -1,5 +1,6 @@
 require 'continuation' unless RUBY_VERSION =~ /^1\.8\./
 module Rxhp
+  autoload :Fragment, 'rxhp/fragment'
   # A place for factory methods to be defined.
   #
   # These are methods like Rxhp::Scope#h1 which creates an Rxhp::Html::H1
@@ -27,6 +28,16 @@ module Rxhp
           Rxhp::Fragment.new
         end
       end
+    end
+
+    def self.with_parent parent
+      # push element onto the render stack...
+      cc = catch(:rxhp_parent) do
+        # ... and call the block with that new stack
+        yield
+        nil
+      end
+      cc.call(parent) if cc
     end
 
     # Define the factory method.
@@ -70,9 +81,7 @@ module Rxhp
         end
 
         if block
-          # push element onto the render stack...
-          cc = catch(:rxhp_parent) do
-            # ... and call the block with that new stack
+          Rxhp::Scope.with_parent(element) do
             result = block.call
             if result && result.is_a?(String)
               # Element children will have already been appended, given
@@ -81,7 +90,6 @@ module Rxhp
             end
             nil
           end
-          cc.call(element) if cc
         end
         element
       end
