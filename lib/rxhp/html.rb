@@ -1,3 +1,4 @@
+require 'rxhp/data/html/attributes'
 require 'rxhp/data/html/tags'
 
 Rxhp::Html::TAGS.each do |tag, data|
@@ -6,6 +7,10 @@ Rxhp::Html::TAGS.each do |tag, data|
   else
     data = {
       :is_a => Rxhp::HtmlElement,
+      :attributes => [
+        Rxhp::Html::GLOBAL_ATTRIBUTES,
+        Rxhp::Html::GLOBAL_EVENT_HANDLERS,
+      ],
     }.merge(data)
 
     klass_name = tag.to_s.dup

@@ -2,6 +2,8 @@ require 'rxhp/html_element'
 require 'rxhp/html_self_closing_element'
 require 'rxhp/html_singleton_element'
 
+require 'rxhp/data/html/attributes'
+
 module Rxhp
   # Definitions of all standard HTML 4.01 and HTML 5 elements.
   #
