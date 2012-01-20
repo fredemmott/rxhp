@@ -14,8 +14,9 @@ module Rxhp
         matcher.any? { |x| match? x, name, value }
       when Hash
         matcher.any? do |name_matcher, value_matcher|
-          name_match = (name_matcher === name) || name_matcher.to_s == name
-          name_match && (value_matcher === value)
+          name_match = match?(name_matcher, name, nil)
+          value_match = match?(value_matcher, value, nil)
+          name_match && value_match
         end
       when Symbol
         matcher.to_s == name
