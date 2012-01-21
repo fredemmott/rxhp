@@ -13,7 +13,7 @@ class HelloWorldBody < Rxhp::ComposableElement
       br
       yield # Call the children, and embed them here
       p(:class => 'bonus') do
-        "& <some escaping too>"
+        text "& <some escaping too>"
       end
     end
   end
@@ -30,7 +30,7 @@ class Foo
   def wrap_a_body
     Rxhp::Html.html do # Don't import the methods, fully-qualify them
       hello_world_body do
-        'world.'
+        Rxhp::Html.text 'world.'
       end
     end
   end

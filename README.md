@@ -92,7 +92,7 @@ You'll get exceptions for things like this:
 
 ```ruby
 input(:type => :checkbox, :name => :foo) do
-  'My checkbox label'
+  text 'My checkbox label'
 end
 ```
 
@@ -101,7 +101,7 @@ You probably meant:
 ```ruby
 input(:type => :checkbox, :name => :foo)
 label(:for => :foo) do
-  'My checkbox label'
+  text 'My checkbox label'
 end
 ```
 
@@ -169,12 +169,38 @@ That's < 0.5ms per render in that example. Some other template systems are
 significantly faster, but this is still highly unlikely to be worrying in
 any modern webapp.
 
-What stage is this at?
-======================
+Strings in blocks
+=================
 
-Not yet used in production.
+These examples raise an exception, as it's not possible to intercept the
+creation of string literals in Ruby:
 
-There's a fair few tests, but documentation needs a lot of work.
+```ruby
+p do
+  # This used to work, but now raises an exception...
+  'foo'
+end
+
+p do
+  # ... as this would silently ignore 'foo'. We'd need to know when the
+  # string literal was created to add it, which isn't supported.
+  'foo'
+  'bar'
+end
+```
+
+Instead, you need to do this:
+
+```ruby
+p 'foo' # if it's just string, use this handy shorcut...
+
+p do
+  # ... otherwise call 'text' - defined in Rxhp::Html, and available
+  # directly in Rxhp::ComposableElement
+  text 'foo'
+  text 'bar'
+end
+```
 
 How do the classes fit together?
 ================================

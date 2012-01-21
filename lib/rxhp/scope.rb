@@ -18,6 +18,7 @@ module Rxhp
       Rxhp::Scope.current.children.push x
     end
     alias :frag :fragment
+    alias :text :fragment
 
     def self.current
       self.stack.last || Rxhp::Fragment.new
@@ -76,11 +77,10 @@ module Rxhp
 
         if block
           Rxhp::Scope.with_parent(element) do
-            result = block.call
-            if result && result.is_a?(String)
-              # Element children will have already been appended, given
-              # their creation would run through this method themselves.
-              element.children.push result
+            if block.call.is_a? String
+              raise Rxhp::ScriptError.new(
+                "In a block, use the 'text' method to include Strings"
+              )
             end
             nil
           end

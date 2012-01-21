@@ -1,6 +1,24 @@
 require 'rxhp/data/html/attributes'
 require 'rxhp/data/html/tags'
 
+module Rxhp
+  module Html
+    def fragment x
+      Rxhp::Scope.current.children.push x
+    end
+    alias :frag :fragment
+    alias :text :fragment
+
+    class <<self
+      def fragment x
+        Rxhp::Scope.current.children.push x
+      end
+      alias :frag :fragment
+      alias :text :fragment
+    end
+  end
+end
+
 Rxhp::Html::TAGS.each do |tag, data|
   if data[:require]
     require data[:require]

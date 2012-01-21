@@ -49,6 +49,14 @@ describe Rxhp::Scope do
         it = @ns.send(@name)
         it.attributes.should be_empty
       end
+
+      it 'raises an error if the result of a block is a string' do
+        lambda do
+          it = @ns.send(@name) do
+            'foo'
+          end.should raise_error(Rxhp::ScriptError)
+        end
+      end
       
       it 'includes elements created in a block as children' do
         it = @ns.send(@name) do
