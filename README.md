@@ -107,6 +107,7 @@ Produces HTML or XHTML
 ----------------------
 
 Given this:
+
 ```ruby
 html do
   body do
@@ -154,7 +155,7 @@ Just by changing the render flags, you can get XHTML...
 ... or still, technically, HTML:
 
 ```html
-<html><body><p>foo<br><p>bar</div>
+<html><body><div><p>foo<br><p>bar</div>
 ```
 
 How fast is it?
