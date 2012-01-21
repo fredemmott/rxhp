@@ -1,7 +1,7 @@
 [![build status](https://secure.travis-ci.org/fredemmott/rxhp.png)](http://travis-ci.org/fredemmott/rxhp)
 
-What is this?!
-==============
+What is this?
+=============
 
 RXhp is a system for producing HTML or XHTML from Ruby.
 
