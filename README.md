@@ -41,6 +41,8 @@ Gives you:
 You can turn off the pretty printing, and optional closing tags (such as
 \</p\>), or render XHTML instead.
 
+Read hello.rb for a full example, or keep on reading for highlights.
+
 Why should I use it?
 ====================
 
@@ -113,8 +115,7 @@ html do
   body do
     div do
       p 'foo'
-      br
-      p 'bar'
+      input(:type => :checkbox, :checked => true)
     end
   end
 end
@@ -130,8 +131,7 @@ Just by changing the render flags, you can get XHTML...
   <body>
     <div>
       <p>foo</p>
-      <br />
-      <p>bar</p>
+      <input type="checkbox" checked="checked" />
     </div>
   </body>
 </html>
@@ -145,8 +145,7 @@ Just by changing the render flags, you can get XHTML...
   <body>
     <div>
       <p>foo</p>
-      <br>
-      <p>bar</p>
+      <input type="checkbox" checked>
     </div>
   </body>
 </html>
@@ -155,7 +154,7 @@ Just by changing the render flags, you can get XHTML...
 ... or still, technically, HTML:
 
 ```html
-<html><body><div><p>foo<br><p>bar</div>
+<html><body><div><p>foo<br><input type="checkbox" checked></div>
 ```
 
 How fast is it?
