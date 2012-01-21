@@ -49,6 +49,43 @@ Why should I use it?
 It's designed to make development and debugging faster - several features
 help with this:
 
+Custom Elements
+---------------
+
+Partials/helpers/sub-templates on steroids :) You _could_ do this:
+
+```ruby
+def make_my_widget foo, bar, baz=nil, awewaefa = nil
+  Html::whatever do
+    # ...
+  end
+end
+
+body do
+  fragment make_my_widget(*args)
+end
+```
+
+That's not nice though :p How about this?
+
+```ruby
+module My
+  class Widget < Rxhp::ComposableElement
+    require_attributes { :foo => String, :bar => Object}
+    accept_attributes { :awewaefa => /^(foo|bar|baz)$/ }
+
+    def compose
+      Html::whatever do
+      end
+    end
+  end
+end
+
+body do
+  My::widget(:foo => . ... )
+end
+```
+
 Attribute validation
 --------------------
 
