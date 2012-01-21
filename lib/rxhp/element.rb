@@ -61,7 +61,7 @@ module Rxhp
         :pretty => true,
         :format => Rxhp::HTML_FORMAT,
         :skip_doctype => false,
-        :doctype => Rxhp::HTML_4_01_TRANSITIONAL,
+        :doctype => Rxhp::HTML_5,
         :depth => 0,
         :indent => 2,
       }.merge(options)
