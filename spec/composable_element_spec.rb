@@ -6,7 +6,7 @@ end
 
 describe Rxhp::ComposableElement do
   before :each do
-    SubKlass.attribute_matchers = []
+    SubKlass.acceptable_attributes = []
     SubKlass.required_attributes = []
   end
 

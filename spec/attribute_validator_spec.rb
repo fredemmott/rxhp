@@ -132,8 +132,8 @@ describe Rxhp::AttributeValidator do
       @instance.should respond_to :validate_attributes!
     end
 
-    it 'should define .attribute_matchers' do
-      @klass.should respond_to :attribute_matchers
+    it 'should define .acceptable_attributes' do
+      @klass.should respond_to :acceptable_attributes
     end
 
     it 'should define .required_attributes' do
@@ -155,12 +155,12 @@ describe Rxhp::AttributeValidator do
       end
 
       it 'should inherit default attributes' do
-        @subklass.attribute_matchers.should == @klass.attribute_matchers
+        @subklass.acceptable_attributes.should == @klass.acceptable_attributes
       end
 
       it 'should not change add subclass attributes to parent' do
         @subklass.accept_attributes :bar
-        @klass.attribute_matchers.should_not include :bar
+        @klass.acceptable_attributes.should_not include :bar
       end
     end
 

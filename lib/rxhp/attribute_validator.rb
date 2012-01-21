@@ -46,7 +46,7 @@ module Rxhp
       return true if self.attributes.empty?
       self.attributes.each do |key, value|
         key = key.to_s
-        matched = self.class.attribute_matchers.any? do |matcher|
+        matched = self.class.acceptable_attributes.any? do |matcher|
           Rxhp::AttributeValidator.match? matcher, key, value
         end
 
@@ -77,9 +77,9 @@ module Rxhp
     def self.included(klass)
       klass.extend(ClassMethods)
       class << klass
-        attr_accessor :attribute_matchers, :required_attributes
+        attr_accessor :acceptable_attributes, :required_attributes
         def accept_attributes matcher
-          attribute_matchers.push matcher
+          acceptable_attributes.push matcher
         end
         alias :accept_attribute :accept_attributes
 
@@ -94,7 +94,7 @@ module Rxhp
         end
       end
 
-      klass.attribute_matchers = []
+      klass.acceptable_attributes = []
       klass.required_attributes = []
     end
 
@@ -102,7 +102,7 @@ module Rxhp
       subklass.class_eval do
         include Rxhp::AttributeValidator
       end
-      subklass.attribute_matchers = subklass.superclass.attribute_matchers.dup
+      subklass.acceptable_attributes = subklass.superclass.acceptable_attributes.dup
       subklass.required_attributes = subklass.superclass.required_attributes.dup
     end
 
