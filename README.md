@@ -8,21 +8,14 @@ RXhp is a system for producing HTML or XHTML from Ruby.
 ```ruby
 require 'rxhp'
 
-class MyPage < Rxhp::ComposableElement
-  # If you don't want to prefix every tag with 'H.', you can just
-  # import Rxhp::Html - but then you've replaced builtins such as Kernel.p
-  # so it's not a nice thing to do :)
-  H = Rxhp::Html
-  def compose
-    H.html do
-      H.body do
-        H.p '<Hello, World>'
-      end
-    end
+H = Rxhp::Html
+doc = H.html do
+  H.body do
+    H.p '<Hello, World>'
   end
 end
 
-puts MyPage.new.render
+puts doc.render
 ```
 
 Gives you:
@@ -85,6 +78,17 @@ body do
   My::widget(:foo => . ... )
 end
 ```
+
+Safety
+------
+
+If Rxhp::Html comes across a string, it escapes it - no exceptions.
+
+* The default is secure - you dom't need to remember to call the escape
+  function
+* Applies to attributes too
+* There is no raw text function - you'd need to subclass Rxhp::Element and
+  reimplement render()
 
 Attribute validation
 --------------------
