@@ -43,8 +43,8 @@ module Rxhp
       end
 
       # Check other attributes are acceptable
-      return if self.attributes.empty?
-      self.attributes.all? do |key, value|
+      return true if self.attributes.empty?
+      self.attributes.each do |key, value|
         key = key.to_s
         matched = self.class.attribute_matchers.any? do |matcher|
           Rxhp::AttributeValidator.match? matcher, key, value
@@ -54,6 +54,7 @@ module Rxhp
           raise UnacceptableAttributeError.new(self, key, value)
         end
       end
+      true
     end
 
     def self.match? matcher, name, value

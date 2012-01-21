@@ -191,6 +191,12 @@ describe Rxhp::AttributeValidator do
         @instance.valid_attributes?.should be_false
       end
 
+      it 'should return false if both required and invalid attributes are present' do
+        @klass.require_attributes 'foo'
+        @instance.attributes = {'foo' => 'bar', 'herp' => 'derp'}
+        @instance.valid_attributes?.should be_false
+      end
+
       it 'should return true if all required attributes are provided' do
         @klass.require_attributes ['foo', 'herp']
         @instance.attributes = {'foo' => 'bar', 'herp' => 'derp'}
