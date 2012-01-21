@@ -24,4 +24,21 @@ describe Rxhp::Html do
       e.valid_attributes?.should be_false
     end
   end
+
+  describe Rxhp::Html::Link do
+    it 'should allow rel="nofollow"' do
+      e = Rxhp::Html::Link.new(:rel => 'nofollow')
+      e.valid_attributes?.should be_true
+    end
+
+    it 'should not allow rel="bogus"' do
+      e = Rxhp::Html::Link.new(:rel => 'bogus')
+      e.valid_attributes?.should be_false
+    end
+
+    it 'should allow multiple space-separated values' do
+      e = Rxhp::Html::Link.new(:rel => 'nofollow noreferrer')
+      e.valid_attributes?.should be_true
+    end
+  end
 end

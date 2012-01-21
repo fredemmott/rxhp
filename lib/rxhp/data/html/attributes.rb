@@ -1,5 +1,17 @@
+require 'uri'
+
 module Rxhp
   module Html
+    # Given ['foo', 'bar', 'baz'], match:
+    # - 'foo'
+    # - 'bar baz'
+    # - 'foo bar baz'
+    # etc.
+    def self.token_list tokens
+      token = tokens.join('|')
+      /^#{token}( (#{token}) )*$/
+    end
+
     # All the non-javascript attributes shared by every HTML element.
     GLOBAL_ATTRIBUTES = {
       /^data-[^:]+$/ => Object,
@@ -75,6 +87,68 @@ module Rxhp
       :ontimeupdate => String,
       :onvolumechange => String,
       :onwaiting => String,
+    }
+
+    # Specific attributes used by multiple elements
+    HREF_ATTRIBUTE = { :href => [String, URI] }
+    MEDIA_ATTRIBUTE = { :media => String }
+    REL_ATTRIBUTE = {
+      :rel => Rxhp::Html.token_list(%w[
+        alternate
+        author
+        bookmark
+        help
+        icon
+        license
+        next
+        nofollow
+        noreferrer
+        prefetch
+        prev
+        search
+        stylesheet
+        tag
+      ]),
+    }
+    DATETIME_ATTRIBUTE = { :datetime => String }
+    CITE_ATTRIBUTE = { :cite => [String, URI] }
+    SRC_ATTRIBUTE = { :src => [String, URI] }
+    DIMENSION_ATTRIBUTES = {
+      :width => String,
+      :height => String,
+    }
+    CROSSORIGIN_ATTRIBUTE = {
+      :crossorigin => /^(anonymous|use-credentials)$/,
+    }
+    COMMON_MEDIA_ATTRIBUTES = {
+      :preload => /^(none|metadata|auto)/,
+      :autoplay => [true, false],
+      :mediagroup => String,
+      :loop => [true, false],
+      :muted => [true, false],
+      :controls => [true, false],
+    }
+    SPAN_ATTRIBUTE = { :span => Integer }
+    TABLE_CELL_ATTRIBUTES = {
+      :colspan => Integer,
+      :rowspan => Integer,
+      :headers => String,
+    },
+    AUTOCOMPLETE_ATTRIBUTE = { :autocomplete => ['on', 'off'] }
+
+    ENC_TYPES = %w[
+      application/x-www-form-urlencoded
+      multipart/form-data
+      text/plain
+    ]
+    INTEGER_LIST = /^\d+(,\d+)*$/
+    FORM_ATTRIBUTES = {
+      :form => String,
+      :formaction => [String, URI],
+      :formenctype => ENC_TYPES,
+      :formmethod => ['get', 'post'],
+      :formnovalidate => [true, false],
+      :formtarget => String,
     }
   end
 end
