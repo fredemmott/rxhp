@@ -169,42 +169,42 @@ describe Rxhp::HtmlElement do
 
     context 'with boolean attributes' do
       it 'should skip the attribute if false' do
-        @it.attributes['bar'] = false
+        @it.attributes[:hidden] = false
 
         @it.render(
           :format => Rxhp::HTML_FORMAT
-        ).should_not include 'bar'
+        ).should_not include 'hidden'
 
         @it.render(
           :format => Rxhp::XHTML_FORMAT
-        ).should_not include 'bar'
+        ).should_not include 'hidden'
       end
 
       it 'should include the attribute without a value if true in HTML' do
-        @it.attributes['bar'] = true
+        @it.attributes['hidden'] = true
 
         result = @it.render(
           :format => Rxhp::HTML_FORMAT
         )
 
-        result.should include ' bar'
-        result.should_not include ' bar='
+        result.should include ' hidden'
+        result.should_not include ' hidden='
       end
 
       it 'should include name=name if true in XHTML' do
-        @it.attributes['bar'] = true
+        @it.attributes['hidden'] = true
 
         result = @it.render(
           :format => Rxhp::XHTML_FORMAT
         )
 
-        result.should match /\sbar=(["'])bar\1/
+        result.should match /\shidden=(["'])hidden\1/
       end
     end
 
     it 'should include attributes' do
-      @it.attributes['bar'] = 'baz'
-      @it.render.should include '<foo bar="baz">'
+      @it.attributes['data-bar'] = 'baz'
+      @it.render.should include '<foo data-bar="baz">'
     end
 
     it 'should escape HTML in contents' do
@@ -216,7 +216,7 @@ describe Rxhp::HtmlElement do
     end
 
     it 'should escape HTML in attributes' do
-      @it.attributes['bar'] = '<baz>'
+      @it.attributes['data-bar'] = '<baz>'
       result = @it.render
       result.should_not include '<baz'
       result.should_not include 'baz>'
@@ -231,8 +231,8 @@ describe Rxhp::HtmlElement do
     end
 
     it 'should escape quotes in attribute values' do
-      @it.attributes['single'] = "a'b"
-      @it.attributes['double'] = 'a"b'
+      @it.attributes['data-single'] = "a'b"
+      @it.attributes['data-double'] = 'a"b'
 
       result = @it.render
       result.should_not match %r(=(['"])[^ ]*\1[^ ]*\1)

@@ -30,6 +30,11 @@ module Rxhp
     accept_attributes Rxhp::Html::GLOBAL_ATTRIBUTES
     accept_attributes Rxhp::Html::GLOBAL_EVENT_HANDLERS
 
+    def initialize *args
+      super *args
+      validate_attributes!
+    end
+
     def tag_name
       raise NotImplementedError.new
     end
@@ -39,6 +44,7 @@ module Rxhp
     # Pays attention to the formatter type, doctype, pretty print options,
     # etc.
     def render options = {}
+      validate_attributes!
       options = fill_options(options)
 
       open = render_open_tag(options)

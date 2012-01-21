@@ -3,7 +3,7 @@ require 'rxhp/scope'
 
 module Rxhp
   module Html
-    class HtmlTag < HtmlSelfClosingElement
+    class Html < HtmlSelfClosingElement
       def tag_name; 'html'; end
 
       protected
@@ -18,4 +18,4 @@ module Rxhp
   end
 end
 
-Rxhp::Scope.define_element('html', Rxhp::Html::HtmlTag, Rxhp::Html)
+Rxhp::Scope.define_element('html', Rxhp::Html::Html, Rxhp::Html)
