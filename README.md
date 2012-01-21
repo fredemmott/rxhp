@@ -109,7 +109,7 @@ This is not a full validator - it's designed to catch trivial mistakes,
 like typos, or misuse of boolean attributes:
 
 ```html
-<!-- this is evaluated as checked = true - can't do this with Rxhp -->
+<!-- this is evaluated as checked = true - Rxhp will throw an exception if you try to do this -->
 <input checked="false" />
 ```
 
