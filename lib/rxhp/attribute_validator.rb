@@ -43,7 +43,7 @@ module Rxhp
           name_match && value_match
         end
       when Symbol
-        matcher.to_s == name
+        matcher.to_s.gsub('_', '-') == name
       else
         matcher === name
       end

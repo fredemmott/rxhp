@@ -27,6 +27,10 @@ describe Rxhp::AttributeValidator do
         match?(:foo, 'foo', 'bar').should be_true
       end
 
+      it 'should treat underscores as hyphens' do
+        match?(:foo_bar, 'foo-bar', 'baz').should be_true
+      end
+
       it 'should not allow a prefix match against the name' do
         match?(:foo, 'foobar', 'baz').should be_false
       end
