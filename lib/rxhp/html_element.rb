@@ -1,4 +1,7 @@
 require 'rxhp/element'
+require 'rxhp/attribute_validator'
+
+require 'rxhp/data/html/attributes'
 
 module Rxhp
   # Base class for 'real' elements that actually end up in the markup.
@@ -23,6 +26,10 @@ module Rxhp
   # just composed of HTML elements), you want to subclass ComposableElement
   # instead.
   class HtmlElement < Element
+    include Rxhp::AttributeValidator
+    accept_attributes Rxhp::Html::GLOBAL_ATTRIBUTES
+    accept_attributes Rxhp::Html::GLOBAL_EVENT_HANDLERS
+
     def tag_name
       raise NotImplementedError.new
     end
@@ -32,7 +39,7 @@ module Rxhp
     # Pays attention to the formatter type, doctype, pretty print options,
     # etc.
     def render options = {}
-      options = fill_options(options) 
+      options = fill_options(options)
 
       open = render_open_tag(options)
       inner = render_children(options)
@@ -67,7 +74,7 @@ module Rxhp
       if options[:pretty]
         indent = ' ' * (options[:indent] * options[:depth])
         indent + escaped + "\n"
-      else 
+      else
         escaped
       end
     end

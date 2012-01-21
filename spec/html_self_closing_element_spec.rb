@@ -23,7 +23,7 @@ describe Rxhp::HtmlSelfClosingElement do
         end
       end
     end
-      
+
     context 'in tiny HTML' do
       context 'with no children' do
         before :each do

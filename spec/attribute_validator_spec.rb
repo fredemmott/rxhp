@@ -94,6 +94,20 @@ describe Rxhp::AttributeValidator do
         match?({:foo => 'bar'}, 'foo', 'bar').should be_true
         match?({:baz => 'bar'}, 'foo', 'bar').should be_false
       end
+
+      it 'should take arrays for values as enums' do
+        matcher = { :foo => ['bar', 'baz'] }
+        match?(matcher, 'foo', 'bar').should be_true
+        match?(matcher, 'foo', 'baz').should be_true
+        match?(matcher, 'foo', 'nyan').should be_false
+      end
+
+      it 'should take arrays for names as enums' do
+        matcher = { ['foo', 'bar'] => 'baz' }
+        match?(matcher, 'foo', 'baz').should be_true
+        match?(matcher, 'bar', 'baz').should be_true
+        match?(matcher, 'foo', 'bar').should be_false
+      end
     end
   end
 
@@ -106,8 +120,12 @@ describe Rxhp::AttributeValidator do
       @instance = @klass.new
     end
 
-    it 'should define #validate_attributes' do
-      @instance.should respond_to :validate_attributes
+    it 'should define #valid_attributes?' do
+      @instance.should respond_to :valid_attributes?
+    end
+
+    it 'should define #validate_attributes!' do
+      @instance.should respond_to :validate_attributes!
     end
 
     it 'should define .attribute_matchers' do
@@ -134,29 +152,52 @@ describe Rxhp::AttributeValidator do
       end
     end
 
-    describe '#validate_attributes' do
+    describe Rxhp::AttributeValidator do
+      it 'should be a descendent of Rxhp::ScriptError' do
+        ancestors = Rxhp::AttributeValidator::ValidationError.ancestors
+        ancestors.should include Rxhp::ScriptError
+        ancestors.should include ::ScriptError
+      end
+    end
+
+    describe '#validate_attributes!' do
+      it 'should raise a ValidationError with invalid attributes' do
+        @instance.attributes['foo'] = 'bar'
+        lambda do
+          @instance.validate_attributes!
+        end.should raise_error(Rxhp::AttributeValidator::ValidationError)
+      end
+    end
+
+    describe '#valid_attributes?' do
       before :each do
         @instance.attributes['foo'] = 'bar'
       end
 
+      it 'should accept a symbol name' do
+        @instance.attributes = {:foo => 'bar'}
+        @klass.accept_attributes('foo' => 'bar')
+        @instance.valid_attributes?.should be_true
+      end
+
       it 'should accept an exact name-value matcher' do
         @klass.accept_attributes('foo' => 'bar')
-        @instance.validate_attributes.should be_true
+        @instance.valid_attributes?.should be_true
       end
 
       it 'should accept a name-only matcher' do
         @klass.accept_attributes('foo' => Object)
-        @instance.validate_attributes.should be_true
+        @instance.valid_attributes?.should be_true
       end
 
       it 'should not accept a name mismatch' do
         @klass.accept_attributes('baz' => Object)
-        @instance.validate_attributes.should be_false
+        @instance.valid_attributes?.should be_false
       end
 
       it 'should not accept a value mismatch' do
         @klass.accept_attributes('foo' => 'baz')
-        @instance.validate_attributes.should be_false
+        @instance.valid_attributes?.should be_false
       end
     end
   end

@@ -1,9 +1,33 @@
+require 'rxhp/error'
+
 module Rxhp
   module AttributeValidator
-    def validate_attributes
+    class ValidationError < Rxhp::ScriptError
+      attr_reader :klass, :attribute, :value
+      def initialize klass, attribute, value
+        @klass, @attribute, @value = klass, attribute, value
+        super "Invalid attribute #{attribute}=#{value}"
+      end
+    end
+
+    def valid_attributes?
+      begin
+        self.validate_attributes!
+        true
+      rescue ValidationError
+        false
+      end
+    end
+
+    def validate_attributes!
       self.attributes.all? do |key, value|
-        self.class.attribute_matchers.any? do |matcher|
+        key = key.to_s
+        matched = self.class.attribute_matchers.any? do |matcher|
           Rxhp::AttributeValidator.match? matcher, key, value
+        end
+
+        if !matched
+          raise ValidationError.new(self.class, key, value)
         end
       end
     end

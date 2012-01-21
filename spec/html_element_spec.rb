@@ -1,10 +1,101 @@
 require File.dirname(__FILE__) + '/_helper.rb'
+require 'rxhp/error'
 require 'rxhp/html_element'
 
 describe Rxhp::HtmlElement do
-  before(:each) do
+  before :each do
     @it = Rxhp::HtmlElement.new
     def @it.tag_name; 'foo'; end
+  end
+
+  describe '#validate_attributes!' do
+    before :each do
+      @call = lambda { @it.validate_attributes! }
+    end
+
+    it 'should accept a word id' do
+      @it.attributes['id'] = 'foo'
+      @call.should_not raise_error
+    end
+
+    it 'should not accept an id with a space in it' do
+      @it.attributes['id'] = 'foo bar'
+      @call.should raise_error
+    end
+
+    it 'should not accept a completely bogus attribute' do
+      @it.attributes['foo'] = 'bar'
+      @call.should raise_error
+    end
+
+    it 'should accept an arbitrary data- attribute' do
+      @it.attributes['data-foo'] = 'bar'
+      @call.should_not raise_error
+    end
+
+    it 'should not accept "data-"' do
+      @it.attributes['data-'] = 'foo'
+      @call.should raise_error
+    end
+
+    it 'should accept onclick' do
+      # Make sure Rxhp::Html:::GLOBAL_EVENT_HANDLERS got pulled in
+      @it.attributes['onclick'] = 'foo'
+      @call.should_not raise_error
+    end
+
+    context 'with boolean attributes' do
+      it 'should accept (true)' do
+        @it.attributes[:hidden] = true
+        @call.should_not raise_error
+      end
+
+      it 'should not accept "true"' do
+        @it.attributes[:hidden] = 'true'
+        @call.should raise_error
+      end
+    end
+
+    context 'with Integer attributes' do
+      it 'should accept accept a fixnum' do
+        @it.attributes[:tabindex] = 3
+        @call.should_not raise_error
+      end
+
+      it 'should not accept a string' do
+        @it.attributes[:tabindex] = '3'
+        @call.should raise_error
+      end
+    end
+
+    context 'with String attributes' do
+      it 'should accept an arbitrary string' do
+        @it.attributes[:title] = 'foo bar baz'
+        @call.should_not raise_error
+      end
+
+      it 'should not accept a number' do
+        @it.attributes[:title] = 3
+        @call.should raise_error
+      end
+    end
+
+    context 'with enum(true|false) attributes' do
+      it 'should accept "true"' do
+        @it.attributes[:spellcheck] = 'true'
+        @call.should_not raise_error
+      end
+
+      it 'should not accept (true)' do
+        @it.attributes[:spellcheck] = true
+        @call.should raise_error
+      end
+
+      it 'should not accept an arbitrary string' do
+        @it.attributes[:spellcheck] = 'foo'
+        @it.should raise_error
+      end
+    end
   end
 
   describe '#render' do
