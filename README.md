@@ -1,4 +1,4 @@
-[![build status](https://secure.travis-ci.org/fredemmott/rxhp.png)](http://travis-ci.org/fredemmott/rxhp)
+[![build status](https://secure.travis-ci.org/fredemmott/rxhp.png)](http://travis-ci.org/fredemmott/rxhp) [![dependency status](https://gemnasium.com/fredemmott/rxhp.png)](https://gemnasium.com/fredemmott/rxhp)
 
 What is this?
 =============
