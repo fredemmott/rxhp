@@ -1,3 +1,4 @@
+{<img src="https://secure.travis-ci.org/fredemmott/rxhp.png" alt="Build Status">}[http://travis-ci.org/fredemmott/rxhp]
 = What is this?!
 
 XHP in Ruby. Not made/supported/endorsed by Facebook.
