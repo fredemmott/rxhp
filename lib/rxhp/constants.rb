@@ -5,6 +5,7 @@ module Rxhp
   XHTML_FORMAT = :xhtml
 
   # Doctypes
+  HTML_5 = '<!DOCTYPE html>'
   HTML_4_01_TRANSITIONAL = <<EOF
 <!DOCTYPE HTML PUBLIC
   "-//W3C//DTD HTML 4.01 Transitional//EN"
