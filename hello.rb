@@ -1,9 +1,7 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.push './lib'
 
-require 'rxhp/constants'
-require 'rxhp/composable_element'
-require 'rxhp/html'
+require 'rxhp'
 
 # This actually defines a new kind of element, that is composed of other
 # elements - it has no real rendering itself.

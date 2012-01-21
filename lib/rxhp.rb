@@ -1,4 +1,4 @@
 require 'rxhp/constants'
-require 'rxhp/errors'
+require 'rxhp/error'
 require 'rxhp/composable_element'
 require 'rxhp/html'
