@@ -76,6 +76,41 @@ describe Rxhp::HtmlElement do
       end
     end
 
+    context 'with boolean attributes' do
+      it 'should skip the attribute if false' do
+        @it.attributes['bar'] = false
+
+        @it.render(
+          :format => Rxhp::HTML_FORMAT
+        ).should_not include 'bar'
+
+        @it.render(
+          :format => Rxhp::XHTML_FORMAT
+        ).should_not include 'bar'
+      end
+
+      it 'should include the attribute without a value if true in HTML' do
+        @it.attributes['bar'] = true
+
+        result = @it.render(
+          :format => Rxhp::HTML_FORMAT
+        )
+
+        result.should include ' bar'
+        result.should_not include ' bar='
+      end
+
+      it 'should include name=name if true in XHTML' do
+        @it.attributes['bar'] = true
+
+        result = @it.render(
+          :format => Rxhp::XHTML_FORMAT
+        )
+
+        result.should match /\sbar=(["'])bar\1/
+      end
+    end
+
     it 'should include attributes' do
       @it.attributes['bar'] = 'baz'
       @it.render.should include '<foo bar="baz">'

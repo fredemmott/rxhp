@@ -85,7 +85,18 @@ module Rxhp
       out = '<' + tag_name
       unless attributes.empty?
         attributes.each do |name,value|
-          out += ' ' + name.to_s + '="' + html_escape(value) + '"'
+          case value
+          when false
+            next
+          when true
+            if options[:format] == Rxhp::XHTML_FORMAT
+              out += ' ' + name.to_s + '="' + name.to_s + '"'
+            else
+              out += ' ' + name
+            end
+          else
+            out += ' ' + name.to_s + '="' + html_escape(value.to_s) + '"'
+          end
         end
       end
 
