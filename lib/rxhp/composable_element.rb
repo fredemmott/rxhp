@@ -1,3 +1,4 @@
+require 'rxhp/attribute_validator'
 require 'rxhp/element'
 require 'rxhp/fragment'
 
@@ -9,12 +10,20 @@ module Rxhp
   # Most of the time, those children will either be ComposableElement's in
   # turn, or subclasses of Rxhp::HtmlElement
   class ComposableElement < Rxhp::Element
+    include Rxhp::AttributeValidator
+
+    def initialize *args
+      super *args
+      validate_attributes!
+    end
+
     # You don't want to implement this function in your subclasses -
     # just reimplement compose instead.
     #
     # This calls compose, provides the 'yield' magic, and callls render on
     # the output.
     def render options = {}
+      validate_attributes!
       self.compose do
         # Allow 'yield' to embed all children
         self.children.each do |child|
@@ -31,6 +40,7 @@ module Rxhp
     # Automatically add a foo_bar method to Rxhp scopes when a FooBar
     # subclass of this is created.
     def self.inherited subclass
+      Rxhp::AttributeValidator.inherited(subclass)
       full_name = subclass.name
       parts = full_name.split('::')
       klass_name = parts.pop

@@ -25,5 +25,16 @@ describe Rxhp::Fragment do
 
       it.render(options)
     end
+
+    it 'should include child nodes in it\'s rendering' do
+      frag = Rxhp::Fragment.new
+      herp = Rxhp::Element.new
+      def herp.render *args
+        'derp'
+      end
+
+      frag.children.push herp
+      frag.render.should include 'derp'
+    end
   end
 end

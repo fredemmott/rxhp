@@ -136,8 +136,16 @@ describe Rxhp::AttributeValidator do
       @klass.should respond_to :attribute_matchers
     end
 
+    it 'should define .required_attributes' do
+      @klass.should respond_to :required_attributes
+    end
+
     it 'should define .accept_attributes' do
       @klass.should respond_to :accept_attributes
+    end
+
+    it 'should define .require_attributes' do
+      @klass.should respond_to :require_attributes
     end
 
     context 'when subclassed' do
@@ -176,6 +184,23 @@ describe Rxhp::AttributeValidator do
     describe '#valid_attributes?' do
       before :each do
         @instance.attributes['foo'] = 'bar'
+      end
+
+      it 'should return false if a required attribute is missing' do
+        @klass.require_attributes 'bar'
+        @instance.valid_attributes?.should be_false
+      end
+
+      it 'should return true if all required attribute is provided' do
+        @klass.require_attributes 'herp'
+        @instance.attributes = {'foo' => 'bar', 'herp' => 'derp'}
+        @instance.valid_attributes?.should be_true
+      end
+
+      it 'should return false if any required attribute is missing' do
+        @klass.require_attributes 'herp'
+        @instance.attributes = {'foo' => 'bar'}
+        @instance.valid_attributes?.should be_false
       end
 
       it 'should accept a symbol name' do
