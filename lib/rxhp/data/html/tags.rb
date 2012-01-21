@@ -4,6 +4,8 @@ require 'rxhp/html_singleton_element'
 
 require 'rxhp/data/html/attributes'
 
+require 'uri'
+
 module Rxhp
   # Definitions of all standard HTML 4.01 and HTML 5 elements.
   #
@@ -31,7 +33,13 @@ module Rxhp
       :aside => {},
       :audio => {},
       :b => {},
-      :base => {:is_a => HtmlSingletonElement},
+      :base => {
+        :is_a => HtmlSingletonElement,
+        :attributes => {
+          :href => [String, ::URI],
+          :target => String,
+        },
+      },
       :basefont => {},
       :bdo => {},
       :bdi => {},
