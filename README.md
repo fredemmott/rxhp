@@ -36,11 +36,10 @@ Gives you:
     </p>
   </body>
 </html>
-end
 ```
 
 You can turn off the pretty printing, and optional closing tags (such as
-</p>), or render XHTML instead.
+\</p\>), or render XHTML instead.
 
 What stage is this at?
 ======================
