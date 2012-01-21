@@ -41,6 +41,122 @@ Gives you:
 You can turn off the pretty printing, and optional closing tags (such as
 \</p\>), or render XHTML instead.
 
+Why should I use it?
+====================
+
+It's designed to make development and debugging faster - several features
+help with this:
+
+Attribute validation
+--------------------
+
+This is fine:
+
+```ruby
+Rxhp::Html.html('data-herp' => 'derp')
+```
+
+This will raise an exception:
+
+```ruby
+Rxhp::Html.html('dtaa-herp' => 'derp') # sic
+```
+
+This is not a full validator - it's designed to catch trivial mistakes,
+like typos, or misuse of boolean attributes:
+
+```html
+<!-- this is evaluated as checked = true - can't do this with Rxhp -->
+<input checked="false" />
+```
+
+Rxhp won't catch problems that aren't just pattern matching on name-value
+pairs though - for example, this it won't spot the problem here:
+
+```html
+<ol>
+  <li value="3">This is fine.</li>
+</ol>
+
+<ul>
+  <li value="3">This isn't - no value attribute for li in ul please.</li>
+</ul>
+```
+
+Validates singleton elements
+----------------------------
+
+You'll get exceptions for things like this:
+
+```ruby
+input(:type => :checkbox, :name => :foo) do
+  'My checkbox label'
+end
+```
+
+You probably meant:
+
+```ruby
+input(:type => :checkbox, :name => :foo)
+label(:for => :foo) do
+  'My checkbox label'
+end
+```
+
+Produces HTML or XHTML
+----------------------
+
+Given this:
+```ruby
+html do
+  body do
+    div do
+      p 'foo'
+      br
+      p 'bar'
+    end
+  end
+end
+```
+
+Just by changing the render flags, you can get XHTML...
+
+```html
+<!DOCTYPE HTML PUBLIC
+  "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <body>
+    <div>
+      <p>foo</p>
+      <br />
+      <p>bar</p>
+    </div>
+  </body>
+</html>
+```
+
+... HTML ...
+
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+    <div>
+      <p>foo</p>
+      <br>
+      <p>bar</p>
+    </div>
+  </body>
+</html>
+```
+
+... or still, technically, HTML:
+
+```html
+<html><body><p>foo<br><p>bar</div>
+```
+
 How fast is it?
 ===============
 
