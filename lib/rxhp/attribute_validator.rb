@@ -3,10 +3,10 @@ require 'rxhp/error'
 module Rxhp
   module AttributeValidator
     class ValidationError < Rxhp::ScriptError
-      attr_reader :klass, :attribute, :value
-      def initialize klass, attribute, value
-        @klass, @attribute, @value = klass, attribute, value
-        super "Invalid attribute #{attribute}=#{value}"
+      attr_reader :element, :attribute, :value
+      def initialize element, attribute, value
+        @element, @attribute, @value = element, attribute, value
+        super "Class #{element.class.name} does not support #{attribute}=#{value.inspect}"
       end
     end
 
@@ -27,7 +27,7 @@ module Rxhp
         end
 
         if !matched
-          raise ValidationError.new(self.class, key, value)
+          raise ValidationError.new(self, key, value)
         end
       end
     end
