@@ -6,6 +6,12 @@ describe Rxhp::HtmlElement do
     def @it.tag_name; 'foo'; end
   end
 
+  it 'can not be rendered directly' do
+    lambda do
+      Rxhp::HtmlElement.new.render
+    end.should raise_error(NotImplementedError)
+  end
+
   describe '#validate_attributes!' do
     before :each do
       @call = lambda { @it.validate_attributes! }
@@ -117,6 +123,15 @@ describe Rxhp::HtmlElement do
         @it.render(
           :pretty => false
         ).should == '<foo>bar</foo>'
+      end
+
+      it 'should include non-string child nodes' do
+        child = Object.new
+        def child.to_s
+          'WHEEE'
+        end
+        @it.children.push child
+        @it.render.should include 'WHEEE'
       end
 
       it 'should include grandchild nodes' do
