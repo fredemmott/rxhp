@@ -23,4 +23,4 @@ PLATFORMS
 DEPENDENCIES
   rake (~> 0.8)
   rspec (~> 2.8.0)
-  simplecov
+  simplecov (~> 0.5.4)
