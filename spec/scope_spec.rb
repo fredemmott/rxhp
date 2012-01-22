@@ -52,8 +52,8 @@ describe Rxhp::Scope do
         lambda do
           it = @ns.send(@name) do
             'foo'
-          end.should raise_error(Rxhp::ScriptError)
-        end
+          end
+        end.should raise_error(Rxhp::ScriptError)
       end
       
       it 'includes elements created in a block as children' do
