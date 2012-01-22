@@ -89,7 +89,7 @@ describe Rxhp::ComposableElement do
       tree.render.should include 'bar'
     end
 
-    it 'does only embed them once when rendering' do
+    it 'does not embed them multiple times when rendering' do
       tree = sub_klass do
         Rxhp::Html.text 'bar'
       end
