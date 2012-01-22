@@ -138,6 +138,10 @@ describe Rxhp::AttributeValidator do
       @klass.should respond_to :required_attributes
     end
 
+    it 'should define .accept_all_attributes' do
+      @klass.should respond_to :accept_all_attributes
+    end
+
     it 'should define .accept_attributes' do
       @klass.should respond_to :accept_attributes
     end
@@ -182,6 +186,16 @@ describe Rxhp::AttributeValidator do
     describe '#valid_attributes?' do
       before :each do
         @instance.attributes['foo'] = 'bar'
+      end
+
+      it 'should return false if there is an attribute but nothing accepted' do
+        @instance.valid_attributes?.should be_false
+      end
+
+      it 'should return true if accept_all_attributes is called' do
+        @klass.accept_all_attributes
+        @instance.attributes['herp'] = 'derp'
+        @instance.valid_attributes?.should be_true
       end
 
       it 'should return false if a required attribute is missing' do

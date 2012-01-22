@@ -1,6 +1,16 @@
 require 'spec_helper'
 
 class SubKlass < ::Rxhp::ComposableElement
+  def compose
+    Rxhp::Html.p do
+      yield
+    end
+  end
+end
+
+module My
+  class OtherSubKlass < ::Rxhp::ComposableElement
+  end
 end
 
 describe Rxhp::ComposableElement do
@@ -53,5 +63,37 @@ describe Rxhp::ComposableElement do
     def child.tag_name; 'herpity'; end
     e.should_receive(:compose).and_return(child)
     e.render.should include 'herpity'
+  end
+
+  it 'raises NotImplementedError for #compose' do
+    lambda do
+      Rxhp::ComposableElement.new.compose
+    end.should raise_error(NotImplementedError)
+  end
+
+  context 'when subclassed' do
+    it 'creates a factory function in the correct module' do
+      lambda{ sub_klass }.should_not raise_error(NoMethodError)
+      lambda{ My::other_sub_klass }.should_not raise_error(NoMethodError)
+
+      sub_klass.should be_a SubKlass
+      My::other_sub_klass.should be_a My::OtherSubKlass
+    end
+  end
+
+  context 'with child elements' do
+    it 'embeds them at yield when rendering' do
+      tree = sub_klass do
+        Rxhp::Html.text 'bar'
+      end
+      tree.render.should include 'bar'
+    end
+
+    it 'does only embed them once when rendering' do
+      tree = sub_klass do
+        Rxhp::Html.text 'bar'
+      end
+      tree.render.should_not match /bar.*bar/
+    end
   end
 end
