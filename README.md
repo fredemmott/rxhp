@@ -208,7 +208,7 @@ How fast is it?
 Fast enough to be irrelevant in nearly any situation - see:
 
 * [A trivial benchmark script](https://gist.github.com/1653689)
-* [Output on a 2.67Ghz i7 against Ruby 1.8.7](https://gist.github.com/1653697)
+* [Output on a 2.67Ghz i7](https://gist.github.com/1653697)
 
 That's < 0.5ms per render in that example. Some other template systems are
 significantly faster, but this is still highly unlikely to be worrying in
