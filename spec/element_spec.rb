@@ -67,6 +67,21 @@ describe Rxhp::Element do
       root.children.push child
       root.render_children options
     end
+
+    it 'should treat array children as several children' do
+      options = {
+        __FILE__ => __LINE__
+      }
+      root = Rxhp::Element.new
+      herp = Rxhp::Element.new
+      derp = Rxhp::Element.new
+      root.children.push [herp, derp]
+
+      herp.should_receive(:render).with(options).and_return(String.new)
+      derp.should_receive(:render).with(options).and_return(String.new)
+
+      root.render_children options
+    end
   end
 
   describe '#fill_options' do

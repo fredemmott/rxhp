@@ -41,18 +41,20 @@ module Rxhp
     def render_children options = {}
       return if children.empty?
 
-      out = String.new
-      children.each do |child|
-        case child
-        when Element
-          out += child.render(options)
-        when String
-          out += self.render_string(child, options)
-        else
-          out += self.render_string(child.to_s, options)
-        end
+      children.map{ |child| render_child(child, options) }.join
+    end
+
+    def render_child child, options
+      case child
+      when Element
+        child.render(options)
+      when String
+        self.render_string(child, options)
+      when Enumerable
+        child.map{ |grandchild| render_child(grandchild, options) }.join
+      else
+        self.render_string(child.to_s, options)
       end
-      out
     end
 
     # Fill default options
