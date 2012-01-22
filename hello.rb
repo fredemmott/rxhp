@@ -36,17 +36,20 @@ class Foo
   end
 end
 
-foo = Foo.new.wrap_a_body
-puts '===== HTML mode ====='
-puts foo.render
-puts '===== XHTML mode ====='
-puts foo.render(
-  :format => Rxhp::XHTML_FORMAT,
-  :doctype => Rxhp::XHTML_1_0_STRICT
-)
-puts '===== Tiny HTML mode ====='
-puts foo.render(
-  :format => Rxhp::TINY_HTML_FORMAT,
-  :pretty => false,
-  :skip_doctype => true
-)
+$foo = Foo.new.wrap_a_body
+
+if File.expand_path(__FILE__) == File.expand_path($0)
+  puts '===== HTML mode ====='
+  puts $foo.render
+  puts '===== XHTML mode ====='
+  puts $foo.render(
+    :format => Rxhp::XHTML_FORMAT,
+    :doctype => Rxhp::XHTML_1_0_STRICT
+  )
+  puts '===== Tiny HTML mode ====='
+  puts $foo.render(
+    :format => Rxhp::TINY_HTML_FORMAT,
+    :pretty => false,
+    :skip_doctype => true
+  )
+end
