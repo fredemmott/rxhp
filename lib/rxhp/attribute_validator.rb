@@ -90,7 +90,7 @@ module Rxhp
         alias :require_attribute :require_attributes
 
         def accept_all_attributes
-          attribute_matches.push Object
+          accept_attributes Object
         end
       end
 
