@@ -66,12 +66,8 @@ module Rxhp
 
         # Append non-block children
         if children
-          if children.is_a? Array
-            children.each do |child|
-              element.children.push child
-            end
-          else
-            element.children.push children # well, child
+          children.each do |child|
+            element.children.push child
           end
         end
 
