@@ -84,8 +84,8 @@ describe 'The README.md examples' do
       @tree.render(
         :doctype => Rxhp::XHTML_1_0_STRICT,
         :format => Rxhp::XHTML_FORMAT
-      ).should == <<EOF
-<!DOCTYPE html PUBLIC
+      ).should match(
+%r{<!DOCTYPE html PUBLIC
   "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
@@ -94,27 +94,25 @@ describe 'The README.md examples' do
       <p>
         foo
       </p>
-      <input type="checkbox" checked="checked" />
+      <input( type="checkbox"| checked="checked"){2} />
     </div>
   </body>
-</html>
-EOF
+</html>}m)
     end
 
     it 'produces HTML as quoted' do
-      @tree.render().should == <<EOF
-<!DOCTYPE html>
+      @tree.render().should match(
+%r{<!DOCTYPE html>
 <html>
   <body>
     <div>
       <p>
         foo
       </p>
-      <input type="checkbox" checked>
+      <input( (type="checkbox"|checked)){2}>
     </div>
   </body>
-</html>
-EOF
+</html>}m)
     end
 
     it 'produces tiny HTML as quoted' do
@@ -122,7 +120,9 @@ EOF
         :pretty => false,
         :format => Rxhp::TINY_HTML_FORMAT,
         :skip_doctype => true
-      ).should == '<html><body><div><p>foo<input type="checkbox" checked></div>'
+      ).should match(
+%r{<html><body><div><p>foo<input( type="checkbox"| checked){2}></div>}m
+      )
     end
   end
 
