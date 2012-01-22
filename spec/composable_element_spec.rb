@@ -10,6 +10,12 @@ end
 
 module My
   class OtherSubKlass < ::Rxhp::ComposableElement
+    def compose
+      results = yield
+      Rxhp::Html.p do
+        Rxhp::Html.fragment results
+      end
+    end
   end
 end
 
@@ -93,7 +99,23 @@ describe Rxhp::ComposableElement do
       tree = sub_klass do
         Rxhp::Html.text 'bar'
       end
-      tree.render.should_not match /bar.*bar/
+      tree.render.should_not match /bar.*bar/m
+    end
+
+    it 'can embed them at a later point if not in a Rxhp scope' do
+      tree = My.other_sub_klass do
+        Rxhp::Html.text 'bar'
+      end
+      tree.children.count.should == 1
+      result = tree.render
+      result.should match %r(<p>.*bar.*</p>)m
+    end
+
+    it "does not embed them multiple times if stored then included" do
+      tree = My.other_sub_klass do
+        Rxhp::Html.text 'bar'
+      end
+      tree.render.should_not match /bar.*bar/m
     end
   end
 end
