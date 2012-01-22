@@ -1,4 +1,3 @@
-require File.dirname(__FILE__) + '/_helper.rb'
 require 'rxhp/composable_element'
 
 class SubKlass < Rxhp::ComposableElement

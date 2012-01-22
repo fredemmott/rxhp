@@ -1,4 +1,3 @@
-require File.dirname(__FILE__) + '/_helper.rb'
 require 'rxhp/html_self_closing_element'
 
 describe Rxhp::HtmlSelfClosingElement do

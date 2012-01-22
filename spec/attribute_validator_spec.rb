@@ -1,4 +1,3 @@
-require File.dirname(__FILE__) + '/_helper.rb'
 require 'rxhp/attribute_validator'
 require 'rxhp/element'
 

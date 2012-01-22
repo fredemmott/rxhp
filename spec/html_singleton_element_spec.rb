@@ -1,4 +1,3 @@
-require File.dirname(__FILE__) + '/_helper.rb'
 require 'rxhp/html_singleton_element.rb'
 
 describe Rxhp::HtmlSingletonElement do

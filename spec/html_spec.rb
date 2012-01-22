@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/_helper.rb'
-
 require 'rxhp/html'
 
 describe Rxhp::Html do

@@ -1,4 +1,3 @@
-require File.dirname(__FILE__) + '/_helper.rb'
 require 'rxhp/error'
 require 'rxhp/html_element'
 

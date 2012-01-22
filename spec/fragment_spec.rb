@@ -1,4 +1,3 @@
-require File.dirname(__FILE__) + '/_helper.rb'
 require 'rxhp/fragment'
 
 describe Rxhp::Fragment do

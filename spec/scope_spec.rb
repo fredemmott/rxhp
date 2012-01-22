@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/_helper.rb'
-
 require 'rxhp/scope'
 
 describe Rxhp::Scope do
