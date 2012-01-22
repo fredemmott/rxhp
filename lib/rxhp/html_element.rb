@@ -53,14 +53,15 @@ module Rxhp
 
       if options[:pretty]
         indent = ' ' * (options[:indent] * options[:depth])
-        out = "%s%s\n" % [indent, open]
-        out += inner if inner
-        out += "%s%s\n" % [indent, close] if close && !close.empty?
+        out = indent.dup
+        out << open << "\n"
+        out << inner if inner
+        out << indent << close << "\n" if close && !close.empty?
         out
       else
         out = open
-        out += inner if inner
-        out += close if close
+        out << inner if inner
+        out << close if close
         out
       end
     end
