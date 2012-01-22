@@ -17,7 +17,7 @@ describe 'The README.md examples' do
     it 'should render HTML correctly' do
       @doc.render(
         :skip_doctype => true,
-        :pretty => false,
+        :pretty => false
       ).should == '<html><body><p>&lt;Hello, World&gt;</p></body></html>'
     end
 
@@ -25,7 +25,7 @@ describe 'The README.md examples' do
       @doc.render(
         :skip_doctype => true,
         :pretty => false,
-        :format => Rxhp::TINY_HTML_FORMAT,
+        :format => Rxhp::TINY_HTML_FORMAT
       ).should == '<html><body><p>&lt;Hello, World&gt;'
     end
   end
@@ -83,7 +83,7 @@ describe 'The README.md examples' do
     it 'produces XHTML as quoted' do
       @tree.render(
         :doctype => Rxhp::XHTML_1_0_STRICT,
-        :format => Rxhp::XHTML_FORMAT,
+        :format => Rxhp::XHTML_FORMAT
       ).should == <<EOF
 <!DOCTYPE html PUBLIC
   "-//W3C//DTD XHTML 1.0 Strict//EN"
