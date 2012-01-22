@@ -1,6 +1,43 @@
 require 'spec_helper'
 
 describe Rxhp::Html do
+  describe '#fragment' do
+    before :each do
+      klass = Class.new
+      klass.class_eval do
+        include Rxhp::Html
+        def foo
+          html do
+            fragment 'foo'
+          end
+        end
+      end
+      @result = klass.new.foo
+    end
+
+    it 'adds a child' do
+      @result.children.should include 'foo'
+    end
+
+    it 'renders the child' do
+      @result.render.should include 'foo'
+    end
+  end
+
+  describe '.fragment' do
+    before :each do
+      @result = Rxhp::Html.fragment 'foo'
+    end
+
+    it 'returns a fragment' do
+      @result.should be_a Rxhp::Fragment
+    end
+
+    it 'appends a child' do
+      @result.children.should include 'foo'
+    end
+  end
+
   context 'attribute validators' do
     it 'should allow tags to accept additional attributes' do
       e = Rxhp::Html::Base.new

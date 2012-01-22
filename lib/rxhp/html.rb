@@ -11,7 +11,9 @@ module Rxhp
 
     class <<self
       def fragment x
-        Rxhp::Scope.current.children.push x
+        scope = Rxhp::Scope.current
+        scope.children.push x
+        scope
       end
       alias :frag :fragment
       alias :text :fragment
