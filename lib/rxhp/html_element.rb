@@ -30,13 +30,13 @@ module Rxhp
     accept_attributes Rxhp::Html::GLOBAL_ATTRIBUTES
     accept_attributes Rxhp::Html::GLOBAL_EVENT_HANDLERS
 
-    def initialize *args
-      super *args
-      validate_attributes!
-    end
-
     def tag_name
       raise NotImplementedError.new
+    end
+
+    def validate!
+      super
+      validate_attributes!
     end
 
     # Render the element.
@@ -44,7 +44,7 @@ module Rxhp
     # Pays attention to the formatter type, doctype, pretty print options,
     # etc.
     def render options = {}
-      validate_attributes!
+      validate!
       options = fill_options(options)
 
       open = render_open_tag(options)
@@ -98,17 +98,20 @@ module Rxhp
       out = '<' + tag_name
       unless attributes.empty?
         attributes.each do |name,value|
+          name = name.to_s.gsub('_', '-') if name.is_a? Symbol
+          value = value.to_s.gsub('_', '-') if value.is_a? Symbol
+
           case value
           when false
             next
           when true
             if options[:format] == Rxhp::XHTML_FORMAT
-              out += ' ' + name.to_s + '="' + name.to_s + '"'
+              out += ' ' + name + '="' + name + '"'
             else
               out += ' ' + name
             end
           else
-            out += ' ' + name.to_s + '="' + html_escape(value.to_s) + '"'
+            out += ' ' + name.to_s + '="' + html_escape(value) + '"'
           end
         end
       end

@@ -6,6 +6,44 @@ describe Rxhp::HtmlElement do
     def @it.tag_name; 'foo'; end
   end
 
+  it 'should include multiple string children' do
+    @it.children = ['herp', 'derp']
+    html = @it.render
+    html.should include 'herp'
+    html.should include 'derp'
+    html.should match /herp.*derp/m
+  end
+
+  it 'should not add whitespace between string children' do
+    @it.children = ['herp', 'derp']
+    html = @it.render
+    html.should include 'herpderp'
+    html.should_not match /herp.+derp/m
+  end
+
+  it 'should not add whitespace between text children' do
+    h = Rxhp::Html
+    html = h.p do
+      h.text 'herp'
+      h.text 'derp'
+    end.render
+
+    html.should include 'herpderp'
+    html.should_not match /herp.+derp/m
+  end
+
+  it 'should collapse text-fragment children' do
+    e = Rxhp::Html::P.new
+    f1 = Rxhp::Fragment.new
+    f1.children.push 'herp'
+    f2 = Rxhp::Fragment.new
+    f2.children.push 'derp'
+    e.children = [f1, f2]
+
+    html = e.render
+    html.should include 'herpderp'
+  end
+
   it 'can not be rendered directly' do
     lambda do
       Rxhp::HtmlElement.new.render
@@ -213,6 +251,20 @@ describe Rxhp::HtmlElement do
 
         result.should match /\shidden=(["'])hidden\1/
       end
+    end
+
+    it 'should accept bool symbol attributes in XHTML' do
+      @it.attributes[:data_bar] = true
+      @it.render(
+        :format => Rxhp::XHTML_FORMAT
+      ).should include '<foo data-bar="data-bar" />'
+    end
+
+    it 'should accept bool symbol attributes in HTML' do
+      @it.attributes[:data_bar] = true
+      @it.render(
+        :format => Rxhp::HTML_FORMAT
+      ).should include '<foo data-bar>'
     end
 
     it 'should include attributes' do

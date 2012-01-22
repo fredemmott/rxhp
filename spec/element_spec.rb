@@ -14,6 +14,38 @@ describe Rxhp::Element do
     end
   end
 
+  describe '#validate!' do
+    it 'should not raise an error' do
+      e = Rxhp::Element.new
+      lambda{ e.validate! }.should_not raise_error
+    end
+  end
+
+  describe 'valid?' do
+    it 'should return true by default' do
+      Rxhp::Element.new.valid?.should be_true
+    end
+
+    it 'should return false if validate! raises a ValidationError' do
+      e = Rxhp::Element.new
+      e.should_receive(:validate!).and_raise(Rxhp::ValidationError.new)
+
+      e.valid?.should be_false
+    end
+
+    it 'should not block any other ScriptError' do
+      e = Rxhp::Element.new
+      e.should_receive(:validate!).and_raise(Rxhp::ScriptError.new)
+      lambda{e.valid?}.should raise_error(Rxhp::ScriptError)
+    end
+
+    it 'should not block normal errors' do
+      e = Rxhp::Element.new
+      e.should_receive(:validate!).and_raise('herpity derpity')
+      lambda{e.valid?}.should raise_error('herpity derpity')
+    end
+  end
+
   describe '#render' do
     it 'should not have a default implementation' do
       e = Rxhp::Element.new

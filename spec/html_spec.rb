@@ -67,7 +67,7 @@ describe Rxhp::Html do
   it 'should raise an exception for invalid attributes at creation time' do
     lambda do
       Rxhp::Html::Base.new(:herp => 'derp')
-    end.should raise_error(Rxhp::AttributeValidator::ValidationError)
+    end.should raise_error(Rxhp::ValidationError)
   end
 
   it 'should raise an exception for invalid attributes at render time' do
@@ -75,7 +75,7 @@ describe Rxhp::Html do
     e.attributes[:herp] = 'derp'
     lambda do
       e.render
-    end.should raise_error(Rxhp::AttributeValidator::ValidationError)
+    end.should raise_error(Rxhp::ValidationError)
   end
 
   it 'should not raise an exception for perfectly cromulent attributes' do

@@ -90,7 +90,7 @@ If Rxhp::Html comes across a string, it escapes it - no exceptions.
 * There is no raw text function - you'd need to subclass Rxhp::Element and
   reimplement render()
 
-Attribute validation
+Attribute Validation
 --------------------
 
 This is fine:
@@ -126,8 +126,8 @@ pairs though - for example, this it won't spot the problem here:
 </ul>
 ```
 
-Validates singleton elements
-----------------------------
+Singleton Validation
+--------------------
 
 You'll get exceptions for things like this:
 
@@ -165,13 +165,15 @@ end
 Just by changing the render flags, you can get XHTML...
 
 ```html
-<!DOCTYPE HTML PUBLIC
+<!DOCTYPE html PUBLIC
   "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
   <body>
     <div>
-      <p>foo</p>
+      <p>
+        foo
+      </p>
       <input type="checkbox" checked="checked" />
     </div>
   </body>
@@ -185,7 +187,9 @@ Just by changing the render flags, you can get XHTML...
 <html>
   <body>
     <div>
-      <p>foo</p>
+      <p>
+        foo
+      </p>
       <input type="checkbox" checked>
     </div>
   </body>
@@ -195,7 +199,7 @@ Just by changing the render flags, you can get XHTML...
 ... or still, technically, HTML:
 
 ```html
-<html><body><div><p>foo<br><input type="checkbox" checked></div>
+<html><body><div><p>foo<input type="checkbox" checked></div>
 ```
 
 How fast is it?
@@ -210,7 +214,7 @@ That's < 0.5ms per render in that example. Some other template systems are
 significantly faster, but this is still highly unlikely to be worrying in
 any modern webapp.
 
-Strings in blocks
+Strings in Blocks
 =================
 
 These examples raise an exception, as it's not possible to intercept the

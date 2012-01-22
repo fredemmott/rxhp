@@ -11,11 +11,12 @@ module Rxhp
   # - people don't expect to see them
   # - in XHTML, the opening tag will have been self closing.
   class HtmlSingletonElement < HtmlElement
-    def render *args
-      unless children.empty?
-        raise Rxhp::ScriptError.new('Singleton element has children')
-      end
-      super *args
+    class HasChildrenError < Rxhp::ValidationError
+    end
+
+    def validate!
+      super
+      raise HasChildrenError.new unless children.empty?
     end
 
     protected

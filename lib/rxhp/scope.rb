@@ -78,8 +78,9 @@ module Rxhp
                 "In a block, use the 'text' method to include Strings"
               )
             end
-            nil
           end
+          element.validate! if element.respond_to?(:validate!)
+          nil
         end
         element
       end

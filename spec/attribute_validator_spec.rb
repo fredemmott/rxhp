@@ -18,6 +18,24 @@ describe Rxhp::AttributeValidator do
       it 'should not allow a suffix match against the name' do
         match?('foo', 'barfoo', 'baz').should be_false
       end
+
+      it 'should allow a symbol match against the name' do
+        match?('foo', :foo, 'bar').should be_true
+      end
+    end
+
+    context 'with a matcher of String' do
+      it 'should match an arbitrary string' do
+        match?(String, 'foo', nil).should be_true
+      end
+
+      it 'should not match a number' do
+        match?(String, 1, nil).should be_false
+      end
+
+      it 'should match an arbitrary symbol' do
+        match?(String, :foo, nil).should be_true
+      end
     end
 
     context 'with a symbol matcher' do
@@ -25,8 +43,12 @@ describe Rxhp::AttributeValidator do
         match?(:foo, 'foo', 'bar').should be_true
       end
 
-      it 'should treat underscores as hyphens' do
+      it 'should treat underscores as hyphens in Symbol matchers' do
         match?(:foo_bar, 'foo-bar', 'baz').should be_true
+      end
+
+      it 'should treat underscores as hyphens in Symbol names' do
+        match?('foo-bar', :foo_bar, 'baz').should be_true
       end
 
       it 'should not allow a prefix match against the name' do
@@ -90,6 +112,14 @@ describe Rxhp::AttributeValidator do
       it 'should apply matchers to values' do
         match?({'foo' => 'bar'}, 'foo', 'bar').should be_true
         match?({'foo' => 'bar'}, 'foo', 'baz').should be_false
+      end
+
+      it 'should accept accept a symbol for a fixed string value' do
+        match?({'foo' => 'bar'}, 'foo', :bar).should be_true
+      end
+
+      it 'should accept accept a symbol for an arbitrary String value' do
+        match?({'foo' => String}, 'foo', :bar).should be_true
       end
 
       it 'should accept symbols for name matchers' do
@@ -168,7 +198,7 @@ describe Rxhp::AttributeValidator do
 
     describe Rxhp::AttributeValidator do
       it 'should be a descendent of Rxhp::ScriptError' do
-        ancestors = Rxhp::AttributeValidator::ValidationError.ancestors
+        ancestors = Rxhp::ValidationError.ancestors
         ancestors.should include Rxhp::ScriptError
         ancestors.should include ::ScriptError
       end
@@ -179,7 +209,7 @@ describe Rxhp::AttributeValidator do
         @instance.attributes['foo'] = 'bar'
         lambda do
           @instance.validate_attributes!
-        end.should raise_error(Rxhp::AttributeValidator::ValidationError)
+        end.should raise_error(Rxhp::ValidationError)
       end
     end
 

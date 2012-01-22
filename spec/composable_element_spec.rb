@@ -34,7 +34,7 @@ describe Rxhp::ComposableElement do
   it 'should raise a validation error if any attributes are given' do
     lambda do
       Rxhp::ComposableElement.new(:foo => :bar)
-    end.should raise_error(Rxhp::AttributeValidator::ValidationError)
+    end.should raise_error(Rxhp::ValidationError)
   end
 
   it 'should allow attributes to be whitelisted' do
@@ -46,7 +46,7 @@ describe Rxhp::ComposableElement do
     end.should_not raise_error
     lambda do
       SubKlass.new(:bar => :baz)
-    end.should raise_error(Rxhp::AttributeValidator::ValidationError)
+    end.should raise_error(Rxhp::ValidationError)
   end
 
   it 'should allow attributes to be required' do
@@ -56,7 +56,7 @@ describe Rxhp::ComposableElement do
 
     lambda do
       SubKlass.new
-    end.should raise_error(Rxhp::AttributeValidator::ValidationError)
+    end.should raise_error(Rxhp::ValidationError)
 
     lambda do
       SubKlass.new(:foo => :bar)

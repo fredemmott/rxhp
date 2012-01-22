@@ -14,10 +14,24 @@ module Rxhp
     def initialize attributes = {}
       @attributes = attributes
       @children = Array.new
+      validate!
     end
 
     def children?
       !children.empty?
+    end
+
+    def valid?
+      begin
+        validate!
+        true
+      rescue Rxhp::ValidationError
+        false
+      end
+    end
+
+    def validate!
+      # no-op
     end
 
     # Return a flat HTML string for this element and all its' decendants.
@@ -41,8 +55,22 @@ module Rxhp
     def render_children options = {}
       return if children.empty?
 
-      children.map{ |child| render_child(child, options) }.join
+      flattened_children.map{ |child| render_child(child, options) }.join
     end
+
+    # Fill default options
+    def fill_options options
+      {
+        :pretty => true,
+        :format => Rxhp::HTML_FORMAT,
+        :skip_doctype => false,
+        :doctype => Rxhp::HTML_5,
+        :depth => 0,
+        :indent => 2,
+      }.merge(options)
+    end
+
+    private
 
     def render_child child, options
       case child
@@ -57,16 +85,28 @@ module Rxhp
       end
     end
 
-    # Fill default options
-    def fill_options options
-      {
-        :pretty => true,
-        :format => Rxhp::HTML_FORMAT,
-        :skip_doctype => false,
-        :doctype => Rxhp::HTML_5,
-        :depth => 0,
-        :indent => 2,
-      }.merge(options)
+    def flattened_children
+      no_frags = []
+      children.each do |node|
+        if node.is_a? Rxhp::Fragment
+          no_frags += node.children
+        else
+          no_frags.push node
+        end
+      end
+
+      previous = nil
+      no_consecutive_strings = []
+      no_frags.each do |node|
+        if node.is_a?(String) && previous.is_a?(String)
+          previous << node
+        else
+          no_consecutive_strings.push node
+          previous = node
+        end
+      end
+
+      no_consecutive_strings
     end
   end
 end

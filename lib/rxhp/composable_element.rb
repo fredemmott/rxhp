@@ -12,8 +12,8 @@ module Rxhp
   class ComposableElement < Rxhp::Element
     include Rxhp::AttributeValidator
 
-    def initialize *args
-      super *args
+    def validate!
+      super
       validate_attributes!
     end
 
@@ -23,7 +23,7 @@ module Rxhp
     # This calls compose, provides the 'yield' magic, and callls render on
     # the output.
     def render options = {}
-      validate_attributes!
+      validate!
       self.compose do
         # Allow 'yield' to embed all children
         self.children.each do |child|
