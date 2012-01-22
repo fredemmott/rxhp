@@ -1,4 +1,4 @@
-require 'rxhp/html'
+require 'spec_helper'
 
 describe Rxhp::Html do
   context 'attribute validators' do

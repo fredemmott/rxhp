@@ -1,6 +1,6 @@
-require 'rxhp/composable_element'
+require 'spec_helper'
 
-class SubKlass < Rxhp::ComposableElement
+class SubKlass < ::Rxhp::ComposableElement
 end
 
 describe Rxhp::ComposableElement do

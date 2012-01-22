@@ -1,4 +1,4 @@
-require 'rxhp/element'
+require 'spec_helper'
 
 describe Rxhp::Element do
   describe '#initialize' do

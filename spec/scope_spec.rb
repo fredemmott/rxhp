@@ -1,4 +1,4 @@
-require 'rxhp/scope'
+require 'spec_helper'
 
 describe Rxhp::Scope do
   describe '.current' do

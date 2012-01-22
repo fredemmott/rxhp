@@ -1,4 +1,4 @@
-require 'rxhp/fragment'
+require 'spec_helper'
 
 describe Rxhp::Fragment do
   describe '#render' do

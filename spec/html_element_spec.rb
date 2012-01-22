@@ -1,5 +1,4 @@
-require 'rxhp/error'
-require 'rxhp/html_element'
+require 'spec_helper'
 
 describe Rxhp::HtmlElement do
   before :each do

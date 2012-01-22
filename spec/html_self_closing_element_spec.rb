@@ -1,4 +1,4 @@
-require 'rxhp/html_self_closing_element'
+require 'spec_helper'
 
 describe Rxhp::HtmlSelfClosingElement do
   describe '#render' do

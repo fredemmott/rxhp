@@ -1,5 +1,4 @@
-require 'rxhp/attribute_validator'
-require 'rxhp/element'
+require 'spec_helper'
 
 def match? *args
   Rxhp::AttributeValidator.match? *args

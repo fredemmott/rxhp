@@ -1,4 +1,4 @@
-require 'rxhp/html_singleton_element.rb'
+require 'spec_helper'
 
 describe Rxhp::HtmlSingletonElement do
   describe '#render' do
