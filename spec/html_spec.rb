@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'uri'
 
 describe Rxhp::Html do
   describe '#fragment' do
@@ -39,6 +40,12 @@ describe Rxhp::Html do
   end
 
   context 'attribute validators' do
+    it 'should allow URI parameters to href' do
+      uri = URI.parse('http://www.example.com')
+      e = Rxhp::Html::A.new(:href => uri)
+      e.valid_attributes?.should be_true
+      lambda { e.render }.should_not raise_error
+    end
     it 'should allow tags to accept additional attributes' do
       e = Rxhp::Html::Base.new
       e.attributes[:href] = 'foo'

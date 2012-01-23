@@ -112,7 +112,7 @@ module Rxhp
               out += ' ' + name
             end
           else
-            out += ' ' + name.to_s + '="' + html_escape(value) + '"'
+            out += ' ' + name.to_s + '="' + html_escape(value.to_s) + '"'
           end
         end
       end
