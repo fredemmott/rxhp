@@ -49,7 +49,7 @@ Partials/helpers/sub-templates on steroids :) You _could_ do this:
 
 ```ruby
 def make_my_widget foo, bar, baz=nil, awewaefa = nil
-  Html::whatever do
+  Html.whatever do
     # ...
   end
 end
@@ -68,14 +68,14 @@ module My
     accept_attributes { :awewaefa => /^(foo|bar|baz)$/ }
 
     def compose
-      Html::whatever do
+      Html.whatever do
       end
     end
   end
 end
 
 body do
-  My::widget(:foo => . ... )
+  My.widget(:foo => . ... )
 end
 ```
 

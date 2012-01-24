@@ -80,10 +80,10 @@ describe Rxhp::ComposableElement do
   context 'when subclassed' do
     it 'creates a factory function in the correct module' do
       lambda{ sub_klass }.should_not raise_error(NoMethodError)
-      lambda{ My::other_sub_klass }.should_not raise_error(NoMethodError)
+      lambda{ My.other_sub_klass }.should_not raise_error(NoMethodError)
 
       sub_klass.should be_a SubKlass
-      My::other_sub_klass.should be_a My::OtherSubKlass
+      My.other_sub_klass.should be_a My::OtherSubKlass
     end
   end
 
