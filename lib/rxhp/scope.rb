@@ -1,3 +1,4 @@
+require 'continuation' unless RUBY_VERSION =~ /^1\.8\./
 module Rxhp
   autoload :Fragment, 'rxhp/fragment'
   # A place for factory methods to be defined.
@@ -21,18 +22,23 @@ module Rxhp
     alias :text :fragment
 
     def self.current
-      self.stack.last || Rxhp::Fragment.new
+      callcc do |cc|
+        begin
+          throw(:rxhp_parent, cc)
+        rescue NameError, ArgumentError
+          Rxhp::Fragment.new
+        end
+      end
     end
 
     def self.with_parent parent
-      result = nil
-      begin
-        self.stack.push parent
-        result = yield
-      ensure
-        self.stack.pop
+      # push element onto the render stack...
+      cc = catch(:rxhp_parent) do
+        # ... and call the block with that new stack
+        yield
+        nil
       end
-      result
+      cc.call(parent) if cc
     end
 
     # Define the factory method.
@@ -100,12 +106,6 @@ module Rxhp
       #    ...
       #  end
       (class <<namespace; self; end).send(:define_method, name, impl)
-    end
-
-    private
-
-    def self.stack
-      Thread.current[:rxhp_scope_stack] ||= []
     end
   end
 end
