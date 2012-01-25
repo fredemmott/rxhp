@@ -2,7 +2,19 @@ require 'rxhp/data/html/attributes'
 require 'rxhp/data/html/tags'
 
 module Rxhp
+  # Namespace for all HTML-related classes and methods.
+  #
+  # Most of RXhp is for generic trees; everything that is HTML or XML
+  # specific is defined here, or in {HtmlElement} and its subclasses.
   module Html
+    # Add a child node.
+    #
+    # @example
+    #   include Rxhp::Html
+    #   p do
+    #     text 'foo'
+    #     text 'bar'
+    #   end
     def fragment x
       Rxhp::Scope.current.children.push x
     end

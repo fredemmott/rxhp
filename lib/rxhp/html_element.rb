@@ -10,30 +10,38 @@ module Rxhp
   #
   # To use:
   # 1. subclass
-  # 2. define tag_name
-  # 3. call Rxhp::Scope.define_element('foo', Foo) to register the class
-  # ... or just add a define_tag line to html.rb.
+  # 2. define {#tag_name}
+  # 3. call +Rxhp::Scope.define_element('foo', Foo, MyModule)+ to register
+  #    the class
+  # ... or just add a +define_tag+ line to html.rb.
   #
   # There's another two base classes for special types of html elements:
-  # - HtmlSelfClosingElement - elements where in HTML, the closing tag is
-  #   optional - for example, <p>, <li>, and <body>
-  # - HtmlSingletonElement - not only is the closing tag optional, but
-  #   child elements are forbidden - for example, <br> and <img>
+  # {HtmlSelfClosingElement}::: elements where in HTML, the closing tag is
+  #                             optional - for example, <p> and <li>
+  # {HtmlSingletonElement}::: not only is the closing tag optional, but
+  #                           child elements are forbidden - for example,
+  #                           <br> and <img>
   #
-  # These can also be defined via Rxhp::Html#define_tag
+  # These can also be defined via {Rxhp::Html#define_tag}
   #
   # If you're making a custom element that's purely server-side (i.e. is
-  # just composed of HTML elements), you want to subclass ComposableElement
-  # instead.
+  # just composed of HTML elements), you want to subclass
+  # {ComposableElement} instead.
   class HtmlElement < Element
     include Rxhp::AttributeValidator
     accept_attributes Rxhp::Html::GLOBAL_ATTRIBUTES
     accept_attributes Rxhp::Html::GLOBAL_EVENT_HANDLERS
 
+    # Literal string to include in render output.
+    #
+    # For example, +'html'+ will lead to +'<html>...</html>'+.
     def tag_name
       raise NotImplementedError.new
     end
 
+    # Check that the element usage does nto have detectable errors.
+    #
+    # At the moment, this just checks for attribute correctness.
     def validate!
       super
       validate_attributes!
@@ -42,7 +50,7 @@ module Rxhp
     # Render the element.
     #
     # Pays attention to the formatter type, doctype, pretty print options,
-    # etc.
+    # etc. See {Element#render} for options.
     def render options = {}
       validate!
       options = fill_options(options)
@@ -66,7 +74,9 @@ module Rxhp
       end
     end
 
-    # Override to increase the depth count for the sake of pretty printing
+    # Render child elements.
+    #
+    # Increases the depth count for the sake of pretty printing.
     def render_children options = {}
       child_options = options.dup
       child_options[:depth] += 1

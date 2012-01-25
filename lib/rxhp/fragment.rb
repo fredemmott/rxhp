@@ -6,6 +6,7 @@ module Rxhp
   # Can be used like an array, or if you just need something that acts like
   # an element - this is used internally as the root of all render trees.
   class Fragment < Element
+    # Call {#render_children}
     def render options = {}
       self.render_children(options)
     end

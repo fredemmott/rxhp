@@ -2,10 +2,10 @@ require 'uri'
 
 module Rxhp
   module Html
-    # Given ['foo', 'bar', 'baz'], match:
-    # - 'foo'
-    # - 'bar baz'
-    # - 'foo bar baz'
+    # Given +['foo', 'bar', 'baz']+, match:
+    # * +'foo'+
+    # * +'bar baz'+
+    # * +'foo bar baz'+
     # etc.
     def self.token_list tokens
       token = tokens.join('|')

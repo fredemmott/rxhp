@@ -3,17 +3,24 @@ module Rxhp
   autoload :Fragment, 'rxhp/fragment'
   # A place for factory methods to be defined.
   #
-  # These are methods like Rxhp::Scope#h1 which creates an Rxhp::Html::H1
-  # instance.
+  # These are methods like +Rxhp::Scope#h1+ which creates an instance of
+  # +Rxhp::Html::H1+.
   #
   # The actual HTML classes are defined in rxhp/html.rb
   #
   module Scope
     # Helper function to append a child to the current context.
-    # Allows you to do this:
+    #
+    # @example Here's one I made earlier
     #   inner = body { 'hi' }
     #   html do
     #     fragment inner
+    #   end
+    #
+    # @example Multiple +String+ children
+    #   p do
+    #     text 'foo'
+    #     text 'bar'
     #   end
     def fragment x
       Rxhp::Scope.current.children.push x
@@ -21,6 +28,16 @@ module Rxhp
     alias :frag :fragment
     alias :text :fragment
 
+    # The element nesting scope.
+    #
+    # @example
+    #   Rxhp::Scope.current.should be_a Rxhp::Fragment
+    #   html.do
+    #     Rxhp::Scope.current.should be_a Rxhp::Html::Html
+    #     body do
+    #       Rxhp::Scope.current.should be_a Rxhp::Html::Body
+    #     end
+    #   end
     def self.current
       callcc do |cc|
         begin
@@ -31,28 +48,35 @@ module Rxhp
       end
     end
 
-    def self.with_parent parent
+    # Set the value of {#current} for a block, and call it.
+    #
+    # Used by {#define_element}
+    def self.with_parent parent, &block
       # push element onto the render stack...
       cc = catch(:rxhp_parent) do
         # ... and call the block with that new stack
-        yield
+        block.call
         nil
       end
       cc.call(parent) if cc
     end
 
-    # Define the factory method.
+    # Define a factory method that takes a block, with a scope.
     #
-    # can be called like:
-    #   tag 'content'
-    #   tag { content }
-    #   tag 'content', :attribute => 'value'
-    #   tag(:attribute=>'value') do
-    #     content
-    #   end
+    # @param [String] name is the name of the method to define
+    # @param [Class] klass is the {Element} subclass to construct
+    # @param [Module] namespace is where to define the method
+    #
+    # @example
+    #   define_element tag, Tag
     #   tag
-    #   tag (:attribute => value)
-    def self.define_element name, klass, namespace
+    #   tag 'content'
+    #   tag(:attribute => value)
+    #   tag('content', :attribute => 'value')
+    #   tag(:attribute => 'value') do
+    #     text 'content'
+    #   end
+    def self.define_element name, klass, namespace = Kernel
       impl = Proc.new do |*args, &block|
         # Yay for faking named parameters as a hash :p
         children = nil

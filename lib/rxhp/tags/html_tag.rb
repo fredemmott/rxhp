@@ -3,6 +3,9 @@ require 'rxhp/scope'
 
 module Rxhp
   module Html
+    # Special-case for the <html> tag.
+    #
+    # This handles doctype rendering.
     class Html < HtmlSelfClosingElement
       def tag_name; 'html'; end
 

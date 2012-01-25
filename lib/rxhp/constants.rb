@@ -1,10 +1,17 @@
 module Rxhp
-  # Basic output formats
+  # Render 'nice' HTML
+  # @example
+  #   <div><p>foo<br>bar</p></div>
   HTML_FORMAT = :html
+  # Render ugly, but valid HTML
+  # @example
+  #  <div><p>foo<br>bar</div>
   TINY_HTML_FORMAT = :tiny_html
+  # Render XHTML
+  # @example
+  #  <div><p>foo<br />bar</p></div>
   XHTML_FORMAT = :xhtml
 
-  # Doctypes
   HTML_5 = "<!DOCTYPE html>\n"
   HTML_4_01_TRANSITIONAL = <<EOF
 <!DOCTYPE HTML PUBLIC
