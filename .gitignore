@@ -3,4 +3,6 @@
 *~
 *.gem
 .rvmrc
+doc/
+.yardoc/
 coverage/

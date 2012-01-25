@@ -250,7 +250,7 @@ end
 How do the classes fit together?
 ================================
 
-![class diagram](https://github.com/fredemmott/rxhp/raw/master/docs/base-classes.png)
+![class diagram](https://github.com/fredemmott/rxhp/raw/master/base-classes.png)
 
 * Rxhp::Element is the root class - everything in an Rxhp tree is either
   an Element, a String, something implementing to\_s, or something that
