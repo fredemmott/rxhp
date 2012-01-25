@@ -12,6 +12,8 @@ module Rxhp
   class ComposableElement < Rxhp::Element
     include Rxhp::AttributeValidator
 
+    # Check that there are no detectable problems, such as invalid
+    # attributes.
     def validate!
       super
       validate_attributes!
@@ -33,6 +35,8 @@ module Rxhp
     end
 
     # Implement this method - return an Rxhp::Element subclass.
+    #
+    # @yieldreturn child elements
     def compose
       raise NotImplementedError.new
     end

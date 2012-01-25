@@ -9,18 +9,31 @@ module Rxhp
   # error at render-time :p
   class Element
     include ::Rxhp::Scope
-    attr_accessor :attributes, :children
+    # A name => value map of attributes.
+    attr_accessor :attributes
+    # A list of child elements of this one.
+    attr_accessor :children
 
+    # Construct a new element with no children.
     def initialize attributes = {}
       @attributes = attributes
       @children = Array.new
       validate!
     end
 
+    # Whether or not this element has any child element.
     def children?
       !children.empty?
     end
 
+    # Whether there are any detectable problems with this element.
+    #
+    # See {AttributeValidator} for an example.
+    #
+    # You probably don't want to override this function in your subclasses;
+    # instead, you probably want to change {#validate!} to recognize your
+    # validations - all this does is check that it {#validate!} executes
+    # without raising a {ValidationError}.
     def valid?
       begin
         validate!
@@ -30,6 +43,9 @@ module Rxhp
       end
     end
 
+    # Check that this element is valid.
+    #
+    # @raise Rxhp::ValidationError if a problem is found.
     def validate!
       # no-op
     end
@@ -37,15 +53,23 @@ module Rxhp
     # Return a flat HTML string for this element and all its' decendants.
     #
     # You probably don't want to implement this yourself - interesting
-    # implementations are in Rxhp::Fragment, Rxhp::HtmlElement, and
-    # Rxhp::ComposableElement
+    # implementations are in {Fragment}, {HtmlElement}, and
+    # {ComposableElement}.
+    #
+    # Valid options include:
+    # +:pretty+:: add whitespace to make the output more readable. Defaults
+    #             to true.
+    # +:indent+:: how many spaces to use to indent when +:pretty+ is true.
+    # +:format+:: See {Rxhp} for values. Default is {Rxhp::HTML_FORMAT}
+    # +:skip_doctype+:: Self explanatory. Defaults to false.
+    # +:doctype+:: See {Rxhp} for values. Default is {Rxhp::HTML_5}
     def render options = {}
       raise NotImplementedError.new
     end
 
     # Called when something that isn't an element is found in the tree.
     #
-    # Implemented in Rxhp::HtmlElement.
+    # Implemented in {HtmlElement}.
     def render_string string, options
       raise NotImplementedError.new
     end
@@ -58,7 +82,11 @@ module Rxhp
       flattened_children.map{ |child| render_child(child, options) }.join
     end
 
-    # Fill default options
+    # Fill default render options.
+    #
+    # These are as defined for {#render}, with the addition of a
+    # +:depth+ value of 0. Other values aren't guaranteed to stay fixed,
+    # check source for current values.
     def fill_options options
       {
         :pretty => true,
@@ -85,6 +113,12 @@ module Rxhp
       end
     end
 
+    # Normalize the children.
+    #
+    # For example, turn +['foo', 'bar']+ into +['foobar']+.
+    #
+    # This is needed to stop things like pretty printing adding extra
+    # whitespace between the two strings.
     def flattened_children
       no_frags = []
       children.each do |node|
