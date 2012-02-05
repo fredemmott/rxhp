@@ -13,7 +13,14 @@ describe Rxhp::Html do
           end
         end
       end
+      @klass = klass
       @result = klass.new.foo
+    end
+
+    it 'creates an Rxhp::Fragment' do
+      @klass.new.instance_eval do
+        fragment 'foo'
+      end.should be_a Rxhp::Fragment
     end
 
     it 'adds a child' do
