@@ -9,25 +9,6 @@ module Rxhp
   # The actual HTML classes are defined in rxhp/html.rb
   #
   module Scope
-    # Helper function to append a child to the current context.
-    #
-    # @example Here's one I made earlier
-    #   inner = body { 'hi' }
-    #   html do
-    #     fragment inner
-    #   end
-    #
-    # @example Multiple +String+ children
-    #   p do
-    #     text 'foo'
-    #     text 'bar'
-    #   end
-    def fragment x
-      Rxhp::Scope.current.children.push x
-    end
-    alias :frag :fragment
-    alias :text :fragment
-
     # The element nesting scope.
     #
     # @example

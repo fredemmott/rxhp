@@ -23,8 +23,19 @@ describe Rxhp::Html do
       end.should be_a Rxhp::Fragment
     end
 
+    it 'can be called with a block' do
+      result = @klass.new.instance_eval do
+        fragment do
+          fragment 'foo'
+        end
+      end
+      result.should be_a Rxhp::Fragment
+      result.children.count.should == 1
+      result.children.first.should be_a Rxhp::Fragment
+    end
+
     it 'adds a child' do
-      @result.children.should include 'foo'
+      @result.children.should_not be_empty
     end
 
     it 'renders the child' do

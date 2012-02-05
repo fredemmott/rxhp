@@ -5,6 +5,9 @@ module Rxhp
   #
   # Can be used like an array, or if you just need something that acts like
   # an element - this is used internally as the root of all render trees.
+  #
+  # You probably don't want to use this directly, as it doesn't know to
+  # render strings. You might want {HtmlFragment} instead.
   class Fragment < Element
     # Call {#render_children}
     def render options = {}
@@ -12,3 +15,6 @@ module Rxhp
     end
   end
 end
+
+Rxhp::Scope.define_element :fragment, Rxhp::Fragment
+Rxhp::Scope.define_element :frag, Rxhp::Fragment

@@ -151,7 +151,7 @@ module Rxhp
 
     # Don't pull in ActiveSupport just for this...
     def html_escape s
-      s.gsub('&','&amp;').gsub('<','&lt;').gsub('>','&gt;').gsub('"','&quot;')
+      Rxhp::Html.escape(s)
     end
   end
 end

@@ -1,5 +1,6 @@
 require 'rxhp/data/html/attributes'
 require 'rxhp/data/html/tags'
+require 'rxhp/html_fragment'
 
 module Rxhp
   # Namespace for all HTML-related classes and methods.
@@ -7,30 +8,8 @@ module Rxhp
   # Most of RXhp is for generic trees; everything that is HTML or XML
   # specific is defined here, or in {HtmlElement} and its subclasses.
   module Html
-    # Add a child node.
-    #
-    # @example
-    #   include Rxhp::Html
-    #   p do
-    #     text 'foo'
-    #     text 'bar'
-    #   end
-    def fragment x
-      scope = Rxhp::Scope.current
-      scope.children.push x
-      scope
-    end
-    alias :frag :fragment
-    alias :text :fragment
-
-    class <<self
-      def fragment x
-        scope = Rxhp::Scope.current
-        scope.children.push x
-        scope
-      end
-      alias :frag :fragment
-      alias :text :fragment
+    def self.escape text
+      text.gsub('&','&amp;').gsub('<','&lt;').gsub('>','&gt;').gsub('"','&quot;')
     end
   end
 end
@@ -56,4 +35,12 @@ Rxhp::Html::TAGS.each do |tag, data|
 
     Rxhp::Scope.define_element tag, klass, Rxhp::Html
   end
+end
+
+[
+  :fragment,
+  :frag,
+  :text,
+].each do |name|
+  Rxhp::Scope.define_element name, Rxhp::HtmlFragment, Rxhp::Html
 end
