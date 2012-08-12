@@ -1,5 +1,4 @@
-require 'rxhp/attribute_validator'
-require 'rxhp/element'
+require 'rxhp/custom_element'
 require 'rxhp/fragment'
 
 module Rxhp
@@ -9,16 +8,7 @@ module Rxhp
   #
   # Most of the time, those children will either be ComposableElement's in
   # turn, or subclasses of Rxhp::HtmlElement
-  class ComposableElement < Rxhp::Element
-    include Rxhp::AttributeValidator
-
-    # Check that there are no detectable problems, such as invalid
-    # attributes.
-    def validate!
-      super
-      validate_attributes!
-    end
-
+  class ComposableElement < Rxhp::CustomElement
     # You don't want to implement this function in your subclasses -
     # just reimplement compose instead.
     #
