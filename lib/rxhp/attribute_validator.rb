@@ -169,6 +169,8 @@ module Rxhp
       else
         if value.is_a? Symbol
           (matcher === value.to_s) || (matcher === name_from_symbol(value))
+        elsif matcher.respond_to? :call
+          matcher.call(value)
         else
           matcher === value
         end
