@@ -140,6 +140,12 @@ describe Rxhp::AttributeValidator do
         match?(matcher, 'bar', 'baz').should be_true
         match?(matcher, 'foo', 'bar').should be_false
       end
+
+      it 'should take a lambda as a matcher' do
+        matcher = { :foo => lambda { |foo| !foo } }
+        match?(matcher, :foo, false).should be_true
+        match?(matcher, :foo, true).should be_false
+      end
     end
   end
 
