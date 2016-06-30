@@ -206,7 +206,7 @@ describe Rxhp::AttributeValidator do
       it 'should be a descendent of Rxhp::ScriptError' do
         ancestors = Rxhp::ValidationError.ancestors
         ancestors.should include Rxhp::ScriptError
-        ancestors.should include ::ScriptError
+        ancestors.should include ::StandardError
       end
     end
 
