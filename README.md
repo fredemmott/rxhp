@@ -1,3 +1,5 @@
+I am no longer working with Ruby and this project is mostly unmaintained.
+
 [API Documentation](http://rubydoc.info/github/fredemmott/rxhp/frames)
 
 [![build status](https://secure.travis-ci.org/fredemmott/rxhp.png)](http://travis-ci.org/fredemmott/rxhp) [![dependency status](https://gemnasium.com/fredemmott/rxhp.png)](https://gemnasium.com/fredemmott/rxhp)
