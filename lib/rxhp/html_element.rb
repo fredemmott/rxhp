@@ -52,8 +52,8 @@ module Rxhp
     # Pays attention to the formatter type, doctype, pretty print options,
     # etc. See {Element#render} for options.
     def render options = {}
-      validate!
       options = fill_options(options)
+      validate! if options[:validate]
 
       open = render_open_tag(options)
       inner = render_children(options)
