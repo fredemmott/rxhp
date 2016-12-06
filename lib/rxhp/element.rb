@@ -95,6 +95,7 @@ module Rxhp
         :doctype => Rxhp::HTML_5,
         :depth => 0,
         :indent => 2,
+        :validate => true,
       }.merge(options)
     end
 
