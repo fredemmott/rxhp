@@ -7,7 +7,7 @@ module Rxhp
   end
 
   # Base class for script errors from Rxhp.
-  class ScriptError < ::ScriptError
+  class ScriptError < ::StandardError
   end
 
   # Base class for element correctness errors from Rxhp.
